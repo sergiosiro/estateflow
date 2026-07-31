@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EstateFlow - Real Estate Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#c4c7c9",
+                        "primary-container": "#1e3a8a",
+                        "on-secondary-container": "#00714d",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#6cf8bb",
+                        "on-tertiary-fixed-variant": "#444749",
+                        "primary-fixed": "#dce1ff",
+                        "background": "#f8f9ff",
+                        "tertiary-fixed": "#e0e3e5",
+                        "inverse-surface": "#213145",
+                        "inverse-on-surface": "#eaf1ff",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container-highest": "#d3e4fe",
+                        "tertiary-container": "#3d4143",
+                        "inverse-primary": "#b6c4ff",
+                        "tertiary": "#272b2d",
+                        "outline-variant": "#c5c5d3",
+                        "primary": "#00236f",
+                        "on-secondary-fixed": "#002113",
+                        "surface": "#f8f9ff",
+                        "secondary-fixed-dim": "#4edea3",
+                        "surface-bright": "#f8f9ff",
+                        "on-primary-fixed": "#00164e",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#4059aa",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#0b1c30",
+                        "surface-container": "#e5eeff",
+                        "on-background": "#0b1c30",
+                        "secondary-fixed": "#6ffbbe",
+                        "secondary": "#006c49",
+                        "surface-variant": "#d3e4fe",
+                        "on-primary-container": "#90a8ff",
+                        "on-tertiary-fixed": "#191c1e",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-surface-variant": "#444651",
+                        "surface-dim": "#cbdbf5",
+                        "on-tertiary-container": "#aaadaf",
+                        "surface-container-high": "#dce9ff",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#264191",
+                        "outline": "#757682",
+                        "primary-fixed-dim": "#b6c4ff",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "margin-desktop": "48px",
+                        "unit": "8px",
+                        "stack-md": "16px",
+                        "stack-lg": "32px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "stack-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "title-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "caption": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "title-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="bg-surface dark:bg-on-surface shadow-sm dark:bg-surface-container-low sticky top-0 z-50 w-full transition-all duration-300">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<!-- Brand -->
+<a class="text-title-md font-title-md font-bold text-primary dark:text-primary-fixed-dim flex items-center gap-2 hover:opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined fill-icon text-primary-container">real_estate_agent</span>
+                EstateFlow
+            </a>
+<!-- Desktop Navigation -->
+<nav class="hidden md:flex items-center gap-gutter">
+<a class="text-label-md font-label-md text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1 active:scale-95 duration-150" href="#">Buy</a>
+<a class="text-label-md font-label-md text-on-surface-variant dark:text-on-tertiary-container hover:text-primary transition-colors hover:bg-surface-container-low dark:hover:bg-tertiary-container px-3 py-2 rounded-lg active:scale-95 duration-150" href="#">Rent</a>
+<a class="text-label-md font-label-md text-on-surface-variant dark:text-on-tertiary-container hover:text-primary transition-colors hover:bg-surface-container-low dark:hover:bg-tertiary-container px-3 py-2 rounded-lg active:scale-95 duration-150" href="#">Sell</a>
+</nav>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<a class="hidden md:inline-flex text-label-md font-label-md text-on-surface hover:text-primary transition-colors py-2 px-4" href="#">Login</a>
+<a class="bg-primary-container text-on-primary hover:bg-primary-container/90 transition-colors py-2 px-6 rounded-full text-label-md font-label-md font-semibold active:scale-95 duration-150 shadow-sm" href="#">List Property</a>
+<!-- Mobile Menu Button -->
+<button class="md:hidden text-on-surface p-2 rounded-lg hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col">
+<!-- Hero Section -->
+<section class="relative w-full h-[600px] flex items-center justify-center px-margin-mobile md:px-margin-desktop overflow-hidden">
+<!-- Background Image -->
+<div class="absolute inset-0 z-0">
+<div class="bg-cover bg-center w-full h-full" data-alt="A sweeping, high-resolution aerial photograph of a modern, upscale residential neighborhood at golden hour. The architecture is clean and contemporary, featuring flat roofs, large glass windows, and lush, manicured green lawns. The lighting is warm and inviting, casting long shadows. The overall aesthetic is highly professional, premium, and serene, aligning perfectly with a luxury real estate marketplace brand. The sky is a soft, clear gradient of warm orange and pale blue." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBCjTyHYmkZ_WoKsJX8ubKuYkGCs8mKmNn6SsCUyORm17BwRq6WRKtmR0kajSKBk9EGmRSLx6IlYWZ0vnK_mLT667sWovVLIl-BPHLbdKpjbV_4etAT9A0LafaR8BqQKXQ3AZ8wrRWOMsENDFkwOgOEmT3Zo93fTddjta-PdBHFwkWtRlEsNgY3QtuWwjWhPPcouj3lOGLkfSYyciQV1Qp4_SYvzSb3qkWct7LCiAYn86J6kFclv4W53A')"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-surface/80 via-surface/40 to-surface/90 z-10 mix-blend-multiply"></div>
+</div>
+<!-- Hero Content -->
+<div class="relative z-20 max-w-4xl mx-auto w-full text-center flex flex-col items-center gap-stack-lg">
+<h1 class="text-headline-lg-mobile md:text-display-lg font-headline-lg-mobile md:font-display-lg font-bold text-on-surface max-w-3xl drop-shadow-sm">Find Your Next Perfect Property with EstateFlow</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant max-w-2xl bg-surface/60 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-surface-container-low">Discover thousands of premium listings across the country. Whether you're buying, renting, or investing, we have the perfect space for you.</p>
+<!-- Search Bar Module -->
+<div class="w-full max-w-3xl bg-surface rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.08)] border border-outline-variant/30 overflow-hidden mt-stack-md transform transition-transform hover:-translate-y-1 duration-300">
+<!-- Tabs -->
+<div class="flex border-b border-outline-variant/20">
+<button class="flex-1 py-4 text-label-md font-label-md font-semibold text-primary border-b-2 border-primary bg-surface">Buy</button>
+<button class="flex-1 py-4 text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-low transition-colors">Rent</button>
+</div>
+<!-- Search Inputs -->
+<div class="p-6 flex flex-col md:flex-row gap-4">
+<div class="flex-1 relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">location_on</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant/50 focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 text-body-md font-body-md text-on-surface transition-all outline-none bg-surface-container-lowest" placeholder="City, Neighborhood, or ZIP" type="text"/>
+</div>
+<div class="flex-1 relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">payments</span>
+<select class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant/50 focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 text-body-md font-body-md text-on-surface transition-all outline-none bg-surface-container-lowest appearance-none">
+<option disabled="" selected="" value="">Max Price</option>
+<option value="500000">$500,000</option>
+<option value="1000000">$1,000,000</option>
+<option value="2000000">$2,000,000+</option>
+</select>
+</div>
+<button class="bg-[#10B981] text-white px-8 py-3 rounded-lg font-label-md text-label-md font-bold hover:bg-[#059669] transition-colors shadow-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined font-bold">search</span>
+                            Search
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Properties -->
+<section class="w-full px-margin-mobile md:px-margin-desktop py-stack-lg max-w-container-max mx-auto my-stack-lg">
+<div class="flex justify-between items-end mb-stack-lg">
+<div>
+<h2 class="text-headline-lg font-headline-lg text-on-surface mb-2">Featured Properties</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">Explore our hand-picked selection of premium listings.</p>
+</div>
+<a class="hidden md:flex items-center gap-1 text-primary-container font-label-md text-label-md hover:underline" href="#">
+                    View all <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<!-- Bento Grid layout for cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Property Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300 group cursor-pointer border border-outline-variant/10 flex flex-col h-full">
+<div class="relative w-full aspect-video overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A professional, brightly lit exterior photograph of a modern two-story suburban home. The house features a mix of white stucco and natural wood siding, with large black-framed windows. A pristine concrete driveway leads to a double garage. The front yard is impeccably landscaped with a manicured lawn and small, modern shrubs. Shot during midday with clear blue skies, conveying a sense of premium suburban living in a light-mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsThEvl0zAQgq8BYIDolqQ8whiRQ_0K0VBf-nrPLRUaVO9RD_aew_A1loMgUqklffin7b-Kmj06MBKIJ-2qXGPK0Rg3X2ldX72md-xALAvDBMUQttdoAUrTP0dm6Yd9j6_q72gUm0h-B5LL_ZMG9Rrirf_fCn6EvGkkIZ8rl2LX7olaaR-9fx_vVqiASYxW6nZOzUYh9c3y7NNCVWjRCGL4gH2a49plsIoDrh_v2ddHmigBLIqIky8GA"/>
+<div class="absolute top-3 left-3 bg-surface-container-lowest/90 backdrop-blur-md px-3 py-1 rounded-full text-caption font-caption font-semibold text-on-surface shadow-sm">
+                            New Listing
+                        </div>
+<button class="absolute top-3 right-3 p-2 rounded-full bg-surface-container-lowest/80 text-on-surface-variant hover:text-[#ba1a1a] transition-colors backdrop-blur-sm">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="text-title-md font-title-md text-primary-container mb-2">$1,250,000</div>
+<h3 class="text-body-lg font-body-lg font-semibold text-on-surface mb-1 truncate">Modern Oasis in Silicon Valley</h3>
+<p class="text-body-md font-body-md text-on-surface-variant mb-4 flex items-center gap-1 truncate">
+<span class="material-symbols-outlined text-sm">location_on</span> 123 Innovation Drive, Palo Alto, CA
+                        </p>
+<div class="flex items-center gap-4 mt-auto pt-4 border-t border-outline-variant/20">
+<div class="flex items-center gap-1 text-on-surface-variant text-label-md font-label-md bg-surface-bright px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[18px]">bed</span> 4
+                            </div>
+<div class="flex items-center gap-1 text-on-surface-variant text-label-md font-label-md bg-surface-bright px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[18px]">bathtub</span> 3
+                            </div>
+<div class="flex items-center gap-1 text-on-surface-variant text-label-md font-label-md bg-surface-bright px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[18px]">square_foot</span> 2,400 sqft
+                            </div>
+</div>
+</div>
+</div>
+<!-- Property Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300 group cursor-pointer border border-outline-variant/10 flex flex-col h-full">
+<div class="relative w-full aspect-video overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An interior shot of a luxurious high-rise apartment living room. Floor-to-ceiling windows offer a panoramic view of a bustling city skyline during daytime. The room is decorated in a minimalist style with a sleek white leather sofa, a glass coffee table, and light oak hardwood floors. The lighting is bright and natural, creating an airy, expensive, and highly professional real estate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvsEl5HrknzDCGSHeL14RBbs245cC_YnECumXFgiTakM9EZxCZva_cfbRS4pO2ufNGBVu2wq61A5hxU_4Q37ywpBOyN0BCoVd1aecjlZ5fT9PaANNi2jwY84XIxlq0MoYcu1DqKVnSUS4NlELkS1xOlIVz5nMxWtXn91XdB9Fp8FqwjzjcfQ3iP0vCg-k8sZzhBZKmzUJmLOVx1uwS5Scdz9HD_BUhM3waqZzs5ACuw48YqW68NUDueg"/>
+<div class="absolute top-3 left-3 bg-surface-container-lowest/90 backdrop-blur-md px-3 py-1 rounded-full text-caption font-caption font-semibold text-on-surface shadow-sm">
+                            Open House
+                        </div>
+<button class="absolute top-3 right-3 p-2 rounded-full bg-surface-container-lowest/80 text-on-surface-variant hover:text-[#ba1a1a] transition-colors backdrop-blur-sm">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="text-title-md font-title-md text-primary-container mb-2">$850,000</div>
+<h3 class="text-body-lg font-body-lg font-semibold text-on-surface mb-1 truncate">Downtown Skyline Penthouse</h3>
+<p class="text-body-md font-body-md text-on-surface-variant mb-4 flex items-center gap-1 truncate">
+<span class="material-symbols-outlined text-sm">location_on</span> 456 Metro Ave, Apt 42B, Seattle, WA
+                        </p>
+<div class="flex items-center gap-4 mt-auto pt-4 border-t border-outline-variant/20">
+<div class="flex items-center gap-1 text-on-surface-variant text-label-md font-label-md bg-surface-bright px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[18px]">bed</span> 2
+                            </div>
+<div class="flex items-center gap-1 text-on-surface-variant text-label-md font-label-md bg-surface-bright px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[18px]">bathtub</span> 2
+                            </div>
+<div class="flex items-center gap-1 text-on-surface-variant text-label-md font-label-md bg-surface-bright px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[18px]">square_foot</span> 1,200 sqft
+                            </div>
+</div>
+</div>
+</div>
+<!-- Property Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300 group cursor-pointer border border-outline-variant/10 flex flex-col h-full">
+<div class="relative w-full aspect-video overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A serene, professional photograph of a contemporary lakeside retreat. The home features expansive wooden decks and large sliding glass doors opening towards a calm, clear lake. The architecture is a blend of rustic timber and modern steel accents. The setting is surrounded by tall pine trees, illuminated by bright, diffuse daylight, creating a peaceful, high-end vacation property vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfR6dsWdisuSc-r-C1c9RtkaYkQePJKHZ4oENWEJoE6xOo5rNVp6yA19JdTaFfyG-Zr9Th0c12nsRIwqw1Dx1Dp5BTaBbNo5yy7tTR43vpkdmbLXYYij9pAFVXGRVa_EHtpYzGcbWpD12qht8ZoetN6Zrx8Kn_5vGW4MOXHQBnsL0nYEvg-MLbSNPAzRjT4HQ44YyBbIDP86GutPQ0IcLFLD7KtZR7dsi0x51EPe-VAL-fdinT9anR0A"/>
+<div class="absolute top-3 left-3 bg-primary-container text-on-primary px-3 py-1 rounded-full text-caption font-caption font-semibold shadow-sm">
+                            Price Drop
+                        </div>
+<button class="absolute top-3 right-3 p-2 rounded-full bg-surface-container-lowest/80 text-on-surface-variant hover:text-[#ba1a1a] transition-colors backdrop-blur-sm">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="text-title-md font-title-md text-primary-container mb-2">$2,100,000</div>
+<h3 class="text-body-lg font-body-lg font-semibold text-on-surface mb-1 truncate">Lakeside Architectural Gem</h3>
+<p class="text-body-md font-body-md text-on-surface-variant mb-4 flex items-center gap-1 truncate">
+<span class="material-symbols-outlined text-sm">location_on</span> 789 Shoreline Rd, Lake Tahoe, NV
+                        </p>
+<div class="flex items-center gap-4 mt-auto pt-4 border-t border-outline-variant/20">
+<div class="flex items-center gap-1 text-on-surface-variant text-label-md font-label-md bg-surface-bright px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[18px]">bed</span> 5
+                            </div>
+<div class="flex items-center gap-1 text-on-surface-variant text-label-md font-label-md bg-surface-bright px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[18px]">bathtub</span> 4.5
+                            </div>
+<div class="flex items-center gap-1 text-on-surface-variant text-label-md font-label-md bg-surface-bright px-2 py-1 rounded-md">
+<span class="material-symbols-outlined text-[18px]">square_foot</span> 4,500 sqft
+                            </div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8 flex justify-center md:hidden">
+<button class="bg-surface-container text-primary-container border border-outline-variant/30 px-6 py-2 rounded-lg font-label-md text-label-md hover:bg-surface-container-high transition-colors">
+                    View All Properties
+                </button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-inverse-surface border-t border-outline-variant dark:border-tertiary-container mt-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop py-stack-lg max-w-container-max mx-auto w-full">
+<!-- Brand Column -->
+<div class="flex flex-col gap-4">
+<a class="text-title-md font-title-md font-bold text-primary dark:text-primary-fixed-dim flex items-center gap-2" href="#">
+<span class="material-symbols-outlined fill-icon text-primary-container">real_estate_agent</span>
+                    EstateFlow
+                </a>
+<p class="text-body-md font-body-md text-on-surface-variant dark:text-on-tertiary-container max-w-xs">
+                    Your trusted partner in finding the perfect property. Professional, transparent, and efficient real estate solutions.
+                </p>
+</div>
+<!-- Links Columns -->
+<div class="flex flex-col gap-3">
+<h4 class="text-body-lg font-body-lg font-semibold text-on-surface dark:text-on-tertiary">Company</h4>
+<a class="text-body-md font-body-md text-on-surface-variant dark:text-on-tertiary-container hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all opacity-80 hover:opacity-100" href="#">About Us</a>
+<a class="text-body-md font-body-md text-on-surface-variant dark:text-on-tertiary-container hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all opacity-80 hover:opacity-100" href="#">Contact</a>
+<a class="text-body-md font-body-md text-on-surface-variant dark:text-on-tertiary-container hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all opacity-80 hover:opacity-100" href="#">Careers</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="text-body-lg font-body-lg font-semibold text-on-surface dark:text-on-tertiary">Resources</h4>
+<a class="text-body-md font-body-md text-on-surface-variant dark:text-on-tertiary-container hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all opacity-80 hover:opacity-100" href="#">Neighborhood Guides</a>
+<a class="text-body-md font-body-md text-on-surface-variant dark:text-on-tertiary-container hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all opacity-80 hover:opacity-100" href="#">Market Reports</a>
+<a class="text-body-md font-body-md text-on-surface-variant dark:text-on-tertiary-container hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all opacity-80 hover:opacity-100" href="#">Mortgage Calculator</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="text-body-lg font-body-lg font-semibold text-on-surface dark:text-on-tertiary">Legal</h4>
+<a class="text-body-md font-body-md text-on-surface-variant dark:text-on-tertiary-container hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="text-body-md font-body-md text-on-surface-variant dark:text-on-tertiary-container hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+</div>
+</div>
+<!-- Copyright -->
+<div class="border-t border-outline-variant/20 dark:border-tertiary-container/30 px-margin-mobile md:px-margin-desktop py-4">
+<div class="max-w-container-max mx-auto text-caption font-caption text-on-surface-variant dark:text-on-tertiary-container text-center md:text-left">
+                © 2024 EstateFlow Real Estate. All rights reserved.
+            </div>
+</div>
+</footer>
+</body></html>
