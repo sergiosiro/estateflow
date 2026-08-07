@@ -10,9 +10,24 @@
   --font-sans: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #EEF6F6;
   --foreground: #19322F;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --background: #0d1816;
+    --foreground: #e6f3f0;
+  }
+}
+
+.dark {
+  --background: #0d1816;
+  --foreground: #e6f3f0;
 }
 
 body {
@@ -20,6 +35,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Material Symbols Outlined Icon variations */
@@ -33,3 +49,4 @@ body {
 .material-symbols-outlined.fill-icon {
   font-variation-settings: 'FILL' 1;
 }
+

@@ -8,7 +8,7 @@ import { MOCK_PROPERTIES } from "@/data/mockProperties";
 
 export default function HomeScreen() {
   return (
-    <div className="min-h-screen flex flex-col bg-clear-day text-nordic">
+    <div className="min-h-screen flex flex-col bg-clear-day dark:bg-[#0d1816] text-nordic dark:text-[#e6f3f0] transition-colors duration-300">
       {/* Top Navbar */}
       <Navbar />
 
@@ -22,16 +22,16 @@ export default function HomeScreen() {
           {/* Section Header */}
           <div className="flex justify-between items-end mb-8">
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-nordic mb-1">
+              <h2 className="text-2xl md:text-3xl font-bold text-nordic dark:text-white mb-1">
                 Propiedades Destacadas
               </h2>
-              <p className="text-sm md:text-base text-nordic/70">
+              <p className="text-sm md:text-base text-nordic/70 dark:text-emerald-100/70">
                 Explora nuestra selección exclusiva de inmuebles premium.
               </p>
             </div>
             <a
               href="#"
-              className="hidden md:flex items-center gap-1 text-mosque font-semibold text-sm hover:underline hover:gap-2 transition-all"
+              className="hidden md:flex items-center gap-1 text-mosque dark:text-emerald-400 font-semibold text-sm hover:underline hover:gap-2 transition-all"
             >
               Ver todas{" "}
               <span className="material-symbols-outlined text-base">
@@ -51,7 +51,7 @@ export default function HomeScreen() {
           <div className="mt-8 flex justify-center md:hidden">
             <a
               href="#"
-              className="w-full text-center bg-white text-mosque border border-mosque/30 px-6 py-3 rounded-xl font-semibold text-sm hover:bg-hint-of-green/20 transition-colors shadow-xs"
+              className="w-full text-center bg-white dark:bg-[#142421] text-mosque dark:text-emerald-400 border border-mosque/30 dark:border-emerald-500/30 px-6 py-3 rounded-xl font-semibold text-sm hover:bg-hint-of-green/20 dark:hover:bg-emerald-950/50 transition-colors shadow-xs"
             >
               Ver todas las propiedades
             </a>
@@ -64,3 +64,4 @@ export default function HomeScreen() {
     </div>
   );
 }
+
