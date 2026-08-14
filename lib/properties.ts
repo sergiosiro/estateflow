@@ -86,3 +86,21 @@ export async function getProperties(
     pageSize,
   };
 }
+
+export async function togglePropertyFavorite(
+  id: string,
+  isFavorite: boolean
+): Promise<{ success: boolean; error?: string }> {
+  const { error } = await supabase
+    .from("properties")
+    .update({ is_favorite: isFavorite })
+    .eq("id", id);
+
+  if (error) {
+    console.error(`Error updating favorite for property ${id}:`, error);
+    return { success: false, error: error.message };
+  }
+
+  return { success: true };
+}
+

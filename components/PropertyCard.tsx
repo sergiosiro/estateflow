@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Property } from "@/types/property";
+import { togglePropertyFavorite } from "@/lib/properties";
 
 interface PropertyCardProps {
   property: Property;
@@ -9,6 +10,33 @@ interface PropertyCardProps {
 
 export default function PropertyCard({ property }: PropertyCardProps) {
   const [isFavorite, setIsFavorite] = useState(property.isFavorite || false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleFavoriteClick = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isLoading) return;
+
+    const nextFavoriteState = !isFavorite;
+    // Optimistic UI update
+    setIsFavorite(nextFavoriteState);
+    setIsLoading(true);
+
+    try {
+      const { success } = await togglePropertyFavorite(
+        property.id,
+        nextFavoriteState
+      );
+      if (!success) {
+        // Revert state if update failed in database
+        setIsFavorite(!nextFavoriteState);
+      }
+    } catch (err) {
+      console.error("Error updating favorite status:", err);
+      setIsFavorite(!nextFavoriteState);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const getTagBadgeStyle = (tagType?: string) => {
     switch (tagType) {
@@ -45,12 +73,12 @@ export default function PropertyCard({ property }: PropertyCardProps) {
 
         {/* Favorite Button */}
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsFavorite(!isFavorite);
-          }}
-          className="absolute top-3 right-3 p-2 rounded-full bg-white/80 dark:bg-[#0d1816]/80 hover:bg-white dark:hover:bg-[#0d1816] text-nordic/70 dark:text-emerald-200 hover:text-red-500 dark:hover:text-red-400 transition-colors backdrop-blur-sm shadow-xs"
-          aria-label="Guardar en favoritos"
+          onClick={handleFavoriteClick}
+          disabled={isLoading}
+          className={`absolute top-3 right-3 p-2 rounded-full bg-white/80 dark:bg-[#0d1816]/80 hover:bg-white dark:hover:bg-[#0d1816] text-nordic/70 dark:text-emerald-200 hover:text-red-500 dark:hover:text-red-400 transition-colors backdrop-blur-sm shadow-xs ${
+            isLoading ? "opacity-75 cursor-not-allowed" : ""
+          }`}
+          aria-label={isFavorite ? "Quitar de favoritos" : "Guardar en favoritos"}
         >
           <span
             className={`material-symbols-outlined text-xl ${
