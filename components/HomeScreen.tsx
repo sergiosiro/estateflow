@@ -4,9 +4,24 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import PropertyCard from "@/components/PropertyCard";
 import Footer from "@/components/Footer";
-import { MOCK_PROPERTIES } from "@/data/mockProperties";
+import Pagination from "@/components/Pagination";
+import { Property } from "@/types/property";
 
-export default function HomeScreen() {
+interface HomeScreenProps {
+  properties: Property[];
+  currentPage: number;
+  totalPages: number;
+  totalCount: number;
+  pageSize: number;
+}
+
+export default function HomeScreen({
+  properties,
+  currentPage,
+  totalPages,
+  totalCount,
+  pageSize,
+}: HomeScreenProps) {
   return (
     <div className="min-h-screen flex flex-col bg-clear-day dark:bg-[#0d1816] text-nordic dark:text-[#e6f3f0] transition-colors duration-300">
       {/* Top Navbar */}
@@ -29,33 +44,39 @@ export default function HomeScreen() {
                 Explora nuestra selección exclusiva de inmuebles premium.
               </p>
             </div>
-            <a
-              href="#"
-              className="hidden md:flex items-center gap-1 text-mosque dark:text-emerald-400 font-semibold text-sm hover:underline hover:gap-2 transition-all"
-            >
-              Ver todas{" "}
-              <span className="material-symbols-outlined text-base">
-                arrow_forward
-              </span>
-            </a>
+            <div className="text-xs md:text-sm font-medium px-3 py-1.5 rounded-full bg-hint-of-green/40 dark:bg-emerald-950/60 text-mosque dark:text-emerald-300 border border-mosque/20 dark:border-emerald-500/30">
+              Página {currentPage} de {totalPages || 1}
+            </div>
           </div>
 
           {/* Properties Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {MOCK_PROPERTIES.map((property) => (
-              <PropertyCard key={property.id} property={property} />
-            ))}
-          </div>
+          {properties.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {properties.map((property) => (
+                <PropertyCard key={property.id} property={property} />
+              ))}
+            </div>
+          ) : (
+            <div className="py-16 text-center bg-white dark:bg-[#142421] rounded-2xl border border-nordic/10 dark:border-emerald-500/20 p-8">
+              <span className="material-symbols-outlined text-5xl text-nordic/40 dark:text-emerald-500/40 mb-3">
+                home_work
+              </span>
+              <h3 className="text-lg font-bold text-nordic dark:text-white mb-1">
+                No se encontraron propiedades
+              </h3>
+              <p className="text-sm text-nordic/60 dark:text-emerald-100/60">
+                No hay propiedades disponibles en esta página.
+              </p>
+            </div>
+          )}
 
-          {/* Mobile View All Button */}
-          <div className="mt-8 flex justify-center md:hidden">
-            <a
-              href="#"
-              className="w-full text-center bg-white dark:bg-[#142421] text-mosque dark:text-emerald-400 border border-mosque/30 dark:border-emerald-500/30 px-6 py-3 rounded-xl font-semibold text-sm hover:bg-hint-of-green/20 dark:hover:bg-emerald-950/50 transition-colors shadow-xs"
-            >
-              Ver todas las propiedades
-            </a>
-          </div>
+          {/* Server-Side Pagination */}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalCount={totalCount}
+            pageSize={pageSize}
+          />
         </section>
       </main>
 
@@ -64,4 +85,3 @@ export default function HomeScreen() {
     </div>
   );
 }
-
