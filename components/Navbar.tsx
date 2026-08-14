@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 type Theme = "system" | "light" | "dark";
 
@@ -61,15 +62,15 @@ export default function Navbar() {
     <header className="bg-white/90 dark:bg-[#0d1816]/90 backdrop-blur-md shadow-xs sticky top-0 z-50 w-full transition-all duration-300 border-b border-nordic/10 dark:border-emerald-500/20">
       <div className="flex justify-between items-center w-full px-4 md:px-12 py-4 max-w-7xl mx-auto">
         {/* Brand */}
-        <a
-          href="#"
+        <Link
+          href="/"
           className="text-xl font-bold text-nordic dark:text-white flex items-center gap-2 hover:opacity-85 transition-opacity"
         >
           <span className="material-symbols-outlined fill-icon text-mosque dark:text-emerald-400 text-2xl">
             real_estate_agent
           </span>
           EstateFlow
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">

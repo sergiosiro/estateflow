@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Property Details - EstateFlow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#c4c7c9",
+                    "primary-container": "#1e3a8a",
+                    "on-secondary-container": "#00714d",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#6cf8bb",
+                    "on-tertiary-fixed-variant": "#444749",
+                    "primary-fixed": "#dce1ff",
+                    "background": "#f8f9ff",
+                    "tertiary-fixed": "#e0e3e5",
+                    "inverse-surface": "#213145",
+                    "inverse-on-surface": "#eaf1ff",
+                    "surface-container-low": "#eff4ff",
+                    "surface-container-highest": "#d3e4fe",
+                    "tertiary-container": "#3d4143",
+                    "inverse-primary": "#b6c4ff",
+                    "tertiary": "#272b2d",
+                    "outline-variant": "#c5c5d3",
+                    "primary": "#00236f",
+                    "on-secondary-fixed": "#002113",
+                    "surface": "#f8f9ff",
+                    "secondary-fixed-dim": "#4edea3",
+                    "surface-bright": "#f8f9ff",
+                    "on-primary-fixed": "#00164e",
+                    "on-tertiary": "#ffffff",
+                    "surface-tint": "#4059aa",
+                    "on-error-container": "#93000a",
+                    "on-primary": "#ffffff",
+                    "on-surface": "#0b1c30",
+                    "surface-container": "#e5eeff",
+                    "on-background": "#0b1c30",
+                    "secondary-fixed": "#6ffbbe",
+                    "secondary": "#006c49",
+                    "surface-variant": "#d3e4fe",
+                    "on-primary-container": "#90a8ff",
+                    "on-tertiary-fixed": "#191c1e",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed-variant": "#005236",
+                    "on-surface-variant": "#444651",
+                    "surface-dim": "#cbdbf5",
+                    "on-tertiary-container": "#aaadaf",
+                    "surface-container-high": "#dce9ff",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed-variant": "#264191",
+                    "outline": "#757682",
+                    "primary-fixed-dim": "#b6c4ff",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "margin-desktop": "48px",
+                    "unit": "8px",
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "stack-sm": "8px"
+            },
+            "fontFamily": {
+                    "title-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "caption": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "headline-lg-mobile": ["Inter"]
+            },
+            "fontSize": {
+                    "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<nav class="bg-surface shadow-sm docked full-width top-0 z-50 sticky">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<a class="text-title-md font-title-md font-bold text-primary" href="#">EstateFlow</a>
+<!-- Desktop Nav -->
+<div class="hidden md:flex items-center space-x-gutter">
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">Buy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">Rent</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">Sell</a>
+</div>
+<!-- Actions -->
+<div class="flex items-center space-x-stack-md">
+<button class="text-primary text-label-md font-label-md hidden md:block">Login</button>
+<button class="bg-[#1E3A8A] text-white px-4 py-2 rounded text-label-md font-label-md hover:opacity-90 transition-opacity">List Property</button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<!-- Breadcrumbs -->
+<div class="flex items-center space-x-2 text-on-surface-variant text-caption font-caption mb-stack-md">
+<a class="hover:text-primary transition-colors" href="#">Home</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Buy</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">California</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-background font-medium">Beverly Hills Estate</span>
+</div>
+<!-- Header -->
+<div class="flex flex-col md:flex-row md:justify-between md:items-end mb-stack-lg gap-stack-md">
+<div>
+<h1 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg-mobile md:font-headline-lg text-on-background mb-stack-sm">The Glass Pavilion</h1>
+<p class="text-body-md font-body-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+                    1234 Summit Ridge Dr, Beverly Hills, CA 90210
+                </p>
+</div>
+<div class="text-left md:text-right">
+<div class="text-display-lg font-display-lg text-[#1E3A8A]">$12,500,000</div>
+<div class="text-body-md font-body-md text-on-surface-variant">Est. Mortgage: $62,400/mo</div>
+</div>
+</div>
+<!-- Image Gallery (Bento Grid) -->
+<div class="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-unit mb-stack-lg h-[400px] md:h-[600px] rounded-xl overflow-hidden shadow-sm">
+<div class="md:col-span-2 md:row-span-2 relative group cursor-pointer">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A spectacular wide-angle photograph of an ultra-modern luxury home interior at twilight. The room features floor-to-ceiling glass windows offering a panoramic view of a sparkling city skyline. The interior is designed in a refined minimalist style with high-end, sleek furniture in muted neutral tones and sophisticated ambient lighting. The atmosphere is serene, exclusive, and professional, perfectly reflecting a high-stakes real estate market." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhz3KDfW6uhGz52XjPjJZo57mkQ--3yIRAp5DZaRB5E9mJSdq1ivqGFAeAjR196s05AzjOT7ywAgPiZaQVQ1dnqOjN3yELpqEuHHuCfq4v4qmdlhMZxhQu2JfI6pcVP9cyMmZqQdxMQU49igL_5Q1HOckha9cfyJw00NhwJzrUeoXFU4EcjSiOkpQDQocQoA3qKJqBPxy_CDiA1G9d6pSw5HV7H5fCfwddqqp1wKJcUJAWNwoiKkjKxg"/>
+<div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-300"></div>
+</div>
+<div class="hidden md:block relative group cursor-pointer">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A meticulously styled modern kitchen in a luxury estate, bathed in bright, natural daylight. The kitchen features expansive white marble countertops, sleek matte black cabinetry, and professional-grade stainless steel appliances. The design emphasizes clean lines and high efficiency, creating a pristine, grounded aesthetic suitable for discerning homebuyers." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjiTmfkBqCiq3MTGulO8ggkc2MR4ickdUs2WGRhFUFR_iHWW-Y-Pe3Sc0PI1kJj_zQaneUoxwegg9VzxpSphPKk1q1SVv_LiBDfOfXgVazgADtROyNMGkC45LneOgoUEziw9SR28prNAnZhNh0LusqKzWoKTlPOfAH-ivBVay1Fo9-m0L1mONqrcpwWY6zLDDc0LDOOODrXU-HT-L1xMfqGv1C-PelqoYy7BzDW4PNfCjHqhCi0b3l1w"/>
+</div>
+<div class="hidden md:block relative group cursor-pointer">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A serene, minimalist master bathroom featuring a freestanding soaking tub placed elegantly in front of a frosted glass window. The room utilizes large-format grey stone tiles and brushed nickel fixtures. Soft, diffused lighting enhances the quiet confidence and premium feel of the space, aligning perfectly with a refined real estate presentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSQVpJ5UgkvS8MJj8vRNZ6-eNGclrhBbsisM-NSU1di5JTAH3gUpi04ZrOIXNGwGri8Bl175schZHelIdzsstKqIVKu9aHb0ATWMMIiSezo2DFyPJQMGoc2oQnVx4U5Wtm271gnA6mE5XyxA2DilZzImu3XAC66Ovw8OAIesAsPZ90qlVNXX69PWjZT5Ez7sf2pa7T6wDLkL87gH9_FD40sug4S9mtdr3a7VamI6HVX4Dlxi1lbZQs3g"/>
+</div>
+<div class="hidden md:block relative group cursor-pointer">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="An expansive outdoor terrace of a modern luxury home, showcasing a sleek infinity pool that seems to blend with the horizon. The deck is furnished with elegant, minimalist sun loungers in crisp white. The scene is illuminated by warm late-afternoon sunlight, projecting stability and high-end lifestyle appeal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwbu_6BdaXpwfq7hEEFHHLKQr1M3c_POqIMirUvW7u-ZjTNlVasxiCO4CeK-urmWOI0LwzjBKxTzQoP2I7i3DS65tDc3ixXYxA_dpc5Vnaec50ME0Z2R7mecwehv2gHT-D8bRSMDat0yKRt2-4D_uWebVL-Pxq3jxbho3e1eNomG9oOUy1K9AmJMV3tKthwug7V1JIynycTiFzB2fn-kJRXJNgDxBKuDgRQa8dNnbmVt7wvH1No-KiUw"/>
+</div>
+<div class="hidden md:block relative group cursor-pointer">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A sophisticated home office space featuring a large, minimalist glass desk and a premium ergonomic chair. The room has extensive built-in shelving displaying curated art and books. Natural light streams in through a large window, creating a focused, professional, and high-efficiency environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDikk84gLuCGRAOOivnCtzV7Zsnji-N-EXETJh2sBqGssCmt-Ui7Gwomd2uO4W3qFSmrhMFfkgA95HlbrR4WbQIK031KHTlh_EaRIQHzvlzWBTVKJQvqBmwKe7SxkqnhrvFbUZwL_qc1w6gcjal8W5cDQOxFu21bOCIbC0-UPU-yPm3bu-Lh3moh-7snC7Bo8woExvxSqdDX8gTbXjpgxdu5fQdHmx3MLuxG8WFa2CFDe0n0VD83gggKw"/>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center transition-colors duration-300 group-hover:bg-black/50">
+<span class="text-white text-title-md font-title-md flex items-center gap-2">
+<span class="material-symbols-outlined">photo_library</span>
+                        +12 Photos
+                    </span>
+</div>
+</div>
+</div>
+<!-- Content Split -->
+<div class="flex flex-col lg:flex-row gap-gutter">
+<!-- Left Column: Details -->
+<div class="lg:w-2/3 space-y-stack-lg">
+<!-- Key Features Bar -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-stack-md flex flex-wrap gap-stack-md justify-between items-center shadow-[0px_4px_20px_rgba(0,0,0,0.04)]">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#1E3A8A] text-[28px]">bed</span>
+<div>
+<div class="text-title-md font-title-md text-on-background">5</div>
+<div class="text-caption font-caption text-on-surface-variant">Bedrooms</div>
+</div>
+</div>
+<div class="w-px h-10 bg-outline-variant/30 hidden sm:block"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#1E3A8A] text-[28px]">bathtub</span>
+<div>
+<div class="text-title-md font-title-md text-on-background">6.5</div>
+<div class="text-caption font-caption text-on-surface-variant">Bathrooms</div>
+</div>
+</div>
+<div class="w-px h-10 bg-outline-variant/30 hidden sm:block"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#1E3A8A] text-[28px]">square_foot</span>
+<div>
+<div class="text-title-md font-title-md text-on-background">8,200</div>
+<div class="text-caption font-caption text-on-surface-variant">Square Feet</div>
+</div>
+</div>
+<div class="w-px h-10 bg-outline-variant/30 hidden sm:block"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#1E3A8A] text-[28px]">landscape</span>
+<div>
+<div class="text-title-md font-title-md text-on-background">1.2</div>
+<div class="text-caption font-caption text-on-surface-variant">Acres</div>
+</div>
+</div>
+</div>
+<!-- Description -->
+<section>
+<h2 class="text-title-md font-title-md text-on-background mb-stack-md">About This Property</h2>
+<div class="text-body-md font-body-md text-on-surface-variant space-y-4">
+<p>Perched atop Summit Ridge, The Glass Pavilion represents the pinnacle of modern architectural achievement. This newly constructed estate offers an unparalleled living experience, characterized by seamless indoor-outdoor integration and sweeping views of the Los Angeles basin.</p>
+<p>The main level features an expansive open-concept living area with automated floor-to-ceiling fleetwood doors. The chef's kitchen is appointed with dual marble islands, state-of-the-art Miele appliances, and a concealed catering prep area.</p>
+<p>The primary suite serves as a private sanctuary, encompassing an entire wing with dual spa-like bathrooms, bespoke dressing rooms, and a private terrace overlooking the zero-edge infinity pool.</p>
+</div>
+<button class="mt-4 text-[#1E3A8A] text-label-md font-label-md hover:underline flex items-center gap-1">
+                        Read full description
+                        <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</section>
+<hr class="border-outline-variant/30"/>
+<!-- Location Map -->
+<section>
+<h2 class="text-title-md font-title-md text-on-background mb-stack-md">Location</h2>
+<div class="w-full h-[300px] rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(0,0,0,0.04)] bg-surface-variant flex items-center justify-center relative">
+<!-- Map Placeholder - In a real app, integrate Maps API -->
+<img class="w-full h-full object-cover opacity-80 mix-blend-multiply" data-alt="A clean, minimalist vector-style map showing the street layout of Beverly Hills, California. The map utilizes a professional color palette of soft whites, light greys, and subtle blues for water features or parks. A prominent, elegant deep blue pin marker indicates a specific premium property location. The design is highly legible and functional, devoid of clutter." data-location="Beverly Hills" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDY36jEBRpGk4xg2LBA97WLvLmYJvc5FDhpkFGf4If_FCG6tr-tqIPksrs4DTvivt-kZkVx7gpKD6zcsFkKghJbENgG-LHhtayXGMKGYK_Nj2_am1DpR5NE8U64Ec34daj-NxlxL10K8poGmURg0edIrEm-5Gc9RVDdJrcOhtvdXuJqzTDkCohQFmkl1-mu3a92bxLPuMQqmGxD6htgA6tNAeF_7bOgxqPRTr25USQYGoBE08D34h8wRg"/>
+<div class="absolute bg-surface-container-lowest p-3 rounded-lg shadow-md flex items-center gap-2 top-4 left-4">
+<span class="material-symbols-outlined text-[#1E3A8A]">map</span>
+<span class="text-label-md font-label-md text-on-background">Beverly Hills, CA</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Sticky Sidebar -->
+<div class="lg:w-1/3">
+<div class="sticky top-[100px] bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-stack-lg shadow-[0px_4px_20px_rgba(0,0,0,0.04)]">
+<div class="flex items-center gap-stack-md mb-stack-md">
+<img class="w-16 h-16 rounded-full object-cover" data-alt="A professional headshot of a confident, well-dressed real estate agent. The agent is wearing a tailored navy suit and smiling warmly. The background is a softly blurred, bright modern office interior. The lighting is flattering and natural, projecting trustworthiness, stability, and high competence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAakYWC72U_VC-CQ3_vsgcQz8Vmuf0UJWuGWyH1Uk8HoN9uFfSnAbtEtkqGWUp_K-zwLIfAdS1aR62QVeK5RjNZhgE6ZigeL9IE-Yan9e3cQO-2RErrcHWEOkwFd4WC6Q2W56tavhpHh3umCt9zUPBheNuYqrllotZ94ah48gHOi_-u-DgjZFvZ5dDkYLxbMRZ8jTebw0k63DaHw7hLHKx35Et8NRnrw0Iov3sXtAbevC7ZtzeeeGCKaQ"/>
+<div>
+<div class="text-title-md font-title-md text-on-background">Sarah Jenkins</div>
+<div class="text-caption font-caption text-on-surface-variant">Premier Estates Director</div>
+</div>
+</div>
+<form class="space-y-stack-md">
+<div>
+<input class="w-full bg-white border border-outline-variant rounded p-3 text-body-md font-body-md focus:outline-none focus:border-[#1E3A8A] focus:ring-2 focus:ring-[#1E3A8A]/20 transition-all" placeholder="Full Name" type="text"/>
+</div>
+<div>
+<input class="w-full bg-white border border-outline-variant rounded p-3 text-body-md font-body-md focus:outline-none focus:border-[#1E3A8A] focus:ring-2 focus:ring-[#1E3A8A]/20 transition-all" placeholder="Email Address" type="email"/>
+</div>
+<div>
+<input class="w-full bg-white border border-outline-variant rounded p-3 text-body-md font-body-md focus:outline-none focus:border-[#1E3A8A] focus:ring-2 focus:ring-[#1E3A8A]/20 transition-all" placeholder="Phone Number" type="tel"/>
+</div>
+<div>
+<textarea class="w-full bg-white border border-outline-variant rounded p-3 text-body-md font-body-md focus:outline-none focus:border-[#1E3A8A] focus:ring-2 focus:ring-[#1E3A8A]/20 transition-all resize-none" placeholder="I am interested in 1234 Summit Ridge Dr..." rows="4"></textarea>
+</div>
+<button class="w-full bg-[#10B981] text-white py-3 rounded text-label-md font-label-md font-medium hover:bg-[#0EA5E9] transition-colors shadow-sm" type="button">
+                            Request Tour
+                        </button>
+<button class="w-full bg-transparent border border-slate-300 text-on-background py-3 rounded text-label-md font-label-md hover:bg-surface-container-low transition-colors" type="button">
+                            Ask a Question
+                        </button>
+</form>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant/30 w-full mt-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop py-stack-lg max-w-container-max mx-auto">
+<div>
+<a class="text-title-md font-title-md font-bold text-primary block mb-4" href="#">EstateFlow</a>
+<p class="text-caption font-caption text-on-surface-variant">© 2024 EstateFlow Real Estate. All rights reserved.</p>
+</div>
+<div class="flex flex-col space-y-2">
+<a class="text-body-md font-body-md text-on-surface-variant hover:text-primary transition-all" href="#">About Us</a>
+<a class="text-body-md font-body-md text-on-surface-variant hover:text-primary transition-all" href="#">Contact</a>
+</div>
+<div class="flex flex-col space-y-2">
+<a class="text-body-md font-body-md text-on-surface-variant hover:text-primary transition-all" href="#">Privacy Policy</a>
+<a class="text-body-md font-body-md text-on-surface-variant hover:text-primary transition-all" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col space-y-2">
+<a class="text-body-md font-body-md text-on-surface-variant hover:text-primary transition-all" href="#">Neighborhood Guides</a>
+</div>
+</div>
+</footer>
+</body></html>

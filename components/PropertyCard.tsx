@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Property } from "@/types/property";
 import { togglePropertyFavorite } from "@/lib/properties";
 
@@ -13,6 +14,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleFavoriteClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
     if (isLoading) return;
 
@@ -53,7 +55,10 @@ export default function PropertyCard({ property }: PropertyCardProps) {
   };
 
   return (
-    <div className="bg-white dark:bg-[#142421] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl dark:hover:shadow-emerald-950/40 transition-all duration-300 group cursor-pointer border border-nordic/10 dark:border-emerald-500/20 flex flex-col h-full">
+    <Link
+      href={`/propiedad/${property.slug}`}
+      className="bg-white dark:bg-[#142421] rounded-2xl overflow-hidden shadow-sm hover:shadow-xl dark:hover:shadow-emerald-950/40 transition-all duration-300 group cursor-pointer border border-nordic/10 dark:border-emerald-500/20 flex flex-col h-full block"
+    >
       {/* Image Container */}
       <div className="relative w-full aspect-video overflow-hidden bg-nordic/5 dark:bg-emerald-950/20">
         <img
@@ -132,7 +137,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

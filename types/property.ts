@@ -1,5 +1,6 @@
 export interface Property {
   id: string;
+  slug: string;
   title: string;
   price: number;
   formattedPrice: string;
@@ -14,5 +15,7 @@ export interface Property {
   tagType?: 'new' | 'open' | 'pricedrop' | 'featured';
   imageUrl: string;
   imageAlt: string;
+  images?: string[];
+  description?: string;
   isFavorite?: boolean;
 }
