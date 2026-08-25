@@ -74,24 +74,24 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
-          <a
-            href="#"
-            className="text-sm font-semibold text-nordic dark:text-white border-b-2 border-mosque dark:border-emerald-400 pb-1 active:scale-95 duration-150"
+          <Link
+            href="/buscar?intent=buy"
+            className="text-sm font-semibold text-nordic dark:text-white hover:text-mosque dark:hover:text-emerald-400 border-b-2 border-transparent hover:border-mosque dark:hover:border-emerald-400 pb-1 transition-all active:scale-95 duration-150"
           >
             Comprar
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            href="/buscar?intent=rent"
             className="text-sm font-medium text-nordic/70 dark:text-emerald-100/70 hover:text-nordic dark:hover:text-white hover:bg-hint-of-green/40 dark:hover:bg-emerald-900/30 px-3 py-2 rounded-lg transition-colors active:scale-95 duration-150"
           >
             Rentar
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            href="/buscar"
             className="text-sm font-medium text-nordic/70 dark:text-emerald-100/70 hover:text-nordic dark:hover:text-white hover:bg-hint-of-green/40 dark:hover:bg-emerald-900/30 px-3 py-2 rounded-lg transition-colors active:scale-95 duration-150"
           >
             Vender
-          </a>
+          </Link>
         </nav>
 
         {/* Actions */}
@@ -186,24 +186,27 @@ export default function Navbar() {
       {/* Mobile Navigation Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-white dark:bg-[#142421] border-t border-nordic/10 dark:border-emerald-500/20 px-6 py-4 flex flex-col gap-3 shadow-lg">
-          <a
-            href="#"
+          <Link
+            href="/buscar?intent=buy"
+            onClick={() => setMobileMenuOpen(false)}
             className="text-base font-semibold text-mosque dark:text-emerald-400 py-2 border-b border-nordic/5 dark:border-emerald-500/10"
           >
             Comprar
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            href="/buscar?intent=rent"
+            onClick={() => setMobileMenuOpen(false)}
             className="text-base font-medium text-nordic dark:text-emerald-100 py-2 border-b border-nordic/5 dark:border-emerald-500/10"
           >
             Rentar
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            href="/buscar"
+            onClick={() => setMobileMenuOpen(false)}
             className="text-base font-medium text-nordic dark:text-emerald-100 py-2 border-b border-nordic/5 dark:border-emerald-500/10"
           >
             Vender
-          </a>
+          </Link>
           <a
             href="#"
             className="text-base font-medium text-nordic dark:text-emerald-100 py-2 border-b border-nordic/5 dark:border-emerald-500/10"

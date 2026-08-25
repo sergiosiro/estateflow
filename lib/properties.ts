@@ -154,4 +154,145 @@ export async function togglePropertyFavorite(
   return { success: true };
 }
 
+export interface PropertySearchFilters {
+  location?: string;
+  intent?: "buy" | "rent" | string;
+  minPrice?: number;
+  maxPrice?: number;
+  beds?: number;
+  baths?: number;
+  propertyType?: string;
+  minSqft?: number;
+  maxSqft?: number;
+  minYear?: number;
+  maxYear?: number;
+  status?: string;
+  amenities?: string[];
+}
+
+export async function searchProperties(
+  filters: PropertySearchFilters = {}
+): Promise<Property[]> {
+  try {
+    let query = supabase.from("properties").select("*");
+
+    if (filters.maxPrice && filters.maxPrice > 0) {
+      query = query.lte("price", filters.maxPrice);
+    }
+    if (filters.minPrice && filters.minPrice > 0) {
+      query = query.gte("price", filters.minPrice);
+    }
+    if (filters.beds && filters.beds > 0) {
+      query = query.gte("beds", filters.beds);
+    }
+    if (filters.baths && filters.baths > 0) {
+      query = query.gte("baths", filters.baths);
+    }
+    if (filters.minSqft && filters.minSqft > 0) {
+      query = query.gte("sqft", filters.minSqft);
+    }
+    if (filters.maxSqft && filters.maxSqft > 0) {
+      query = query.lte("sqft", filters.maxSqft);
+    }
+    if (filters.location && filters.location.trim() !== "") {
+      const loc = filters.location.trim();
+      query = query.or(
+        `title.ilike.%${loc}%,city.ilike.%${loc}%,location.ilike.%${loc}%,state.ilike.%${loc}%`
+      );
+    }
+
+    const { data, error } = await query.order("created_at", { ascending: false });
+
+    let supabaseResults: Property[] = [];
+    if (!error && data && data.length > 0) {
+      supabaseResults = data.map(mapSupabaseItemToProperty);
+    }
+
+    let source = supabaseResults.length > 0 ? supabaseResults : MOCK_PROPERTIES;
+
+    return source.filter((p) => {
+      if (filters.location && filters.location.trim() !== "" && supabaseResults.length === 0) {
+        const term = filters.location.trim().toLowerCase();
+        const text = `${p.title} ${p.address} ${p.city} ${p.state} ${p.zipCode || ""}`.toLowerCase();
+        if (!text.includes(term)) return false;
+      }
+      if (filters.minPrice && p.price < filters.minPrice) return false;
+      if (filters.maxPrice && p.price > filters.maxPrice) return false;
+      if (filters.beds && p.beds < filters.beds) return false;
+      if (filters.baths && Number(p.baths) < filters.baths) return false;
+      if (filters.minSqft && p.sqft < filters.minSqft) return false;
+      if (filters.maxSqft && p.sqft > filters.maxSqft) return false;
+
+      if (filters.propertyType && filters.propertyType !== "all" && filters.propertyType !== "") {
+        const typeTerm = filters.propertyType.toLowerCase();
+        const pTitle = p.title.toLowerCase();
+        if (typeTerm === "house" || typeTerm === "casa") {
+          if (!pTitle.includes("house") && !pTitle.includes("casa") && !pTitle.includes("residence") && !pTitle.includes("home") && !pTitle.includes("villa") && !pTitle.includes("chalet") && !pTitle.includes("manor")) return false;
+        } else if (typeTerm === "apartment" || typeTerm === "departamento" || typeTerm === "condo") {
+          if (!pTitle.includes("apartment") && !pTitle.includes("apt") && !pTitle.includes("penthouse") && !pTitle.includes("condo") && !pTitle.includes("loft") && !pTitle.includes("downtown")) return false;
+        } else if (typeTerm === "villa") {
+          if (!pTitle.includes("villa") && !pTitle.includes("estate")) return false;
+        } else if (typeTerm === "penthouse") {
+          if (!pTitle.includes("penthouse") && !pTitle.includes("loft")) return false;
+        } else if (typeTerm === "townhouse") {
+          if (!pTitle.includes("townhouse") && !pTitle.includes("craftsman")) return false;
+        } else {
+          if (!pTitle.includes(typeTerm)) return false;
+        }
+      }
+
+      if (filters.status && filters.status !== "all" && filters.status !== "") {
+        const st = filters.status.toLowerCase();
+        if (st === "new") {
+          if (p.tagType !== "new" && !p.tag.toLowerCase().includes("new")) return false;
+        } else if (st === "open" || st === "open_house") {
+          if (p.tagType !== "open" && !p.tag.toLowerCase().includes("open")) return false;
+        } else if (st === "pricedrop" || st === "price_drop") {
+          if (p.tagType !== "pricedrop" && !p.tag.toLowerCase().includes("drop")) return false;
+        } else if (st === "featured") {
+          if (p.tagType !== "featured" && !p.tag.toLowerCase().includes("featured")) return false;
+        }
+      }
+
+      if (filters.amenities && filters.amenities.length > 0) {
+        const fullText = `${p.title} ${p.description || ""} ${p.tag}`.toLowerCase();
+        for (const amenity of filters.amenities) {
+          const am = amenity.toLowerCase();
+          if (am === "pool" || am === "piscina") {
+            if (!fullText.includes("pool") && !fullText.includes("piscina") && !fullText.includes("beach") && !fullText.includes("lake")) return false;
+          } else if (am === "garage" || am === "garaje") {
+            if (!fullText.includes("garage") && !fullText.includes("parking") && !fullText.includes("drive")) return false;
+          } else if (am === "garden" || am === "jardín") {
+            if (!fullText.includes("garden") && !fullText.includes("lawn") && !fullText.includes("patio") && !fullText.includes("yard") && !fullText.includes("terrace")) return false;
+          } else if (am === "gym" || am === "gimnasio") {
+            if (!fullText.includes("gym") && !fullText.includes("fitness") && !fullText.includes("spa")) return false;
+          } else {
+            if (!fullText.includes(am)) return false;
+          }
+        }
+      }
+
+      return true;
+    });
+  } catch (err) {
+    console.error("Error in searchProperties:", err);
+    return MOCK_PROPERTIES.filter((p) => {
+      if (filters.location && filters.location.trim() !== "") {
+        const term = filters.location.trim().toLowerCase();
+        const text = `${p.title} ${p.address} ${p.city} ${p.state} ${p.zipCode || ""}`.toLowerCase();
+        if (!text.includes(term)) return false;
+      }
+      if (filters.minPrice && p.price < filters.minPrice) return false;
+      if (filters.maxPrice && p.price > filters.maxPrice) return false;
+      if (filters.beds && p.beds < filters.beds) return false;
+      if (filters.baths && Number(p.baths) < filters.baths) return false;
+      if (filters.minSqft && p.sqft < filters.minSqft) return false;
+      if (filters.maxSqft && p.sqft > filters.maxSqft) return false;
+      return true;
+    });
+  }
+}
+
+
+
 

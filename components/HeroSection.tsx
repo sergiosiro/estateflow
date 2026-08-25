@@ -1,15 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function HeroSection() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<"buy" | "rent">("buy");
   const [location, setLocation] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Búsqueda iniciada:", { activeTab, location, maxPrice });
+    const params = new URLSearchParams();
+    if (activeTab) params.set("intent", activeTab);
+    if (location.trim()) params.set("location", location.trim());
+    if (maxPrice) params.set("maxPrice", maxPrice);
+
+    router.push(`/buscar?${params.toString()}`);
   };
 
   return (
