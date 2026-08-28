@@ -130,4 +130,35 @@ export interface Translations {
     terms: string;
     copyright: string;
   };
+  auth: {
+    welcomeBack: string;
+    welcomeSubtitle: string;
+    loginWithGoogle: string;
+    orContinueWith: string;
+    emailLabel: string;
+    emailPlaceholder: string;
+    passwordLabel: string;
+    passwordPlaceholder: string;
+    forgotPassword: string;
+    rememberMe: string;
+    signInButton: string;
+    signingIn: string;
+    noAccount: string;
+    signUp: string;
+    alreadyHaveAccount: string;
+    signUpButton: string;
+    fullNameLabel: string;
+    fullNamePlaceholder: string;
+    backToHome: string;
+    elevateTitle: string;
+    elevateSubtitle: string;
+    logout: string;
+    profile: string;
+    myFavorites: string;
+    publishProperty: string;
+    loginError: string;
+    googleLoginError: string;
+    resetEmailSent: string;
+    signUpSuccess: string;
+  };
 }

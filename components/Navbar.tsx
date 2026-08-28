@@ -1,18 +1,25 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import LanguageSelector from "./LanguageSelector";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { useAuth } from "@/lib/auth/AuthContext";
 
 type Theme = "system" | "light" | "dark";
 
 export default function Navbar() {
   const { t } = useLanguage();
+  const { user, signOut, loading: authLoading } = useAuth();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>("system");
   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+
+  const themeRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -33,7 +40,29 @@ export default function Navbar() {
     };
 
     mediaQuery.addEventListener("change", handleMediaChange);
-    return () => mediaQuery.removeEventListener("change", handleMediaChange);
+
+    // Click outside handler for dropdowns
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        themeRef.current &&
+        !themeRef.current.contains(e.target as Node)
+      ) {
+        setThemeDropdownOpen(false);
+      }
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(e.target as Node)
+      ) {
+        setUserDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleMediaChange);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const applyTheme = (newTheme: Theme) => {
@@ -60,6 +89,29 @@ export default function Navbar() {
     if (theme === "light") return "light_mode";
     return "desktop_windows";
   };
+
+  const getUserInitial = () => {
+    if (!user) return "U";
+    const name =
+      user.user_metadata?.full_name ||
+      user.user_metadata?.name ||
+      user.email ||
+      "U";
+    return name.charAt(0).toUpperCase();
+  };
+
+  const getUserDisplayName = () => {
+    if (!user) return "";
+    return (
+      user.user_metadata?.full_name ||
+      user.user_metadata?.name ||
+      user.email?.split("@")[0] ||
+      "Usuario"
+    );
+  };
+
+  const avatarUrl =
+    user?.user_metadata?.avatar_url || user?.user_metadata?.picture;
 
   return (
     <header className="bg-white/90 dark:bg-[#0d1816]/90 backdrop-blur-md shadow-xs sticky top-0 z-50 w-full transition-all duration-300 border-b border-nordic/10 dark:border-emerald-500/20">
@@ -103,14 +155,14 @@ export default function Navbar() {
           <LanguageSelector />
 
           {/* Theme Switcher Dropdown */}
-          <div className="relative">
+          <div className="relative" ref={themeRef}>
             <button
               onClick={() => setThemeDropdownOpen(!themeDropdownOpen)}
-              className="p-2 rounded-xl text-nordic dark:text-emerald-100 hover:bg-hint-of-green/30 dark:hover:bg-emerald-900/40 transition-colors flex items-center gap-1 border border-nordic/10 dark:border-emerald-500/20"
+              className="p-2 rounded-xl text-nordic dark:text-emerald-100 hover:bg-hint-of-green/30 dark:hover:bg-emerald-900/40 transition-colors flex items-center gap-1 border border-nordic/10 dark:border-emerald-500/20 text-sm"
               aria-label="Seleccionar modo de color"
               title="Modo de pantalla"
             >
-              <span className="material-symbols-outlined text-xl">
+              <span className="material-symbols-outlined text-lg">
                 {getThemeIcon()}
               </span>
               <span className="material-symbols-outlined text-xs">
@@ -163,18 +215,121 @@ export default function Navbar() {
             )}
           </div>
 
-          <a
-            href="#"
-            className="hidden md:inline-flex text-sm font-semibold text-nordic dark:text-emerald-100 hover:text-mosque dark:hover:text-emerald-400 transition-colors py-2 px-3"
-          >
-            {t.nav.login}
-          </a>
-          <a
-            href="#"
-            className="bg-mosque dark:bg-emerald-600 text-white hover:bg-mosque/90 dark:hover:bg-emerald-500 transition-colors py-2 px-5 rounded-full text-xs md:text-sm font-semibold active:scale-95 duration-150 shadow-sm flex items-center gap-1"
+          {/* User Section (Logged In vs Logged Out) */}
+          {user ? (
+            <div className="relative" ref={userMenuRef}>
+              <button
+                onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                className="flex items-center gap-2 p-1 pl-1.5 pr-2.5 rounded-full border border-nordic/15 dark:border-emerald-500/30 hover:border-mosque/40 dark:hover:border-emerald-400 transition-all bg-white/80 dark:bg-[#142421]/80 shadow-2xs group cursor-pointer"
+                aria-label="Menú de usuario"
+              >
+                {/* User Avatar */}
+                <div className="w-8 h-8 rounded-full overflow-hidden bg-hint-of-green dark:bg-emerald-900/70 border border-mosque/20 dark:border-emerald-400/40 flex items-center justify-center text-mosque dark:text-emerald-300 font-bold text-xs">
+                  {avatarUrl ? (
+                    <img
+                      src={avatarUrl}
+                      alt={getUserDisplayName()}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span>{getUserInitial()}</span>
+                  )}
+                </div>
+
+                <span className="hidden lg:inline-block text-xs font-semibold text-nordic dark:text-emerald-100 max-w-[110px] truncate">
+                  {getUserDisplayName()}
+                </span>
+
+                <span className="material-symbols-outlined text-xs text-nordic/60 dark:text-emerald-100/60 group-hover:text-mosque dark:group-hover:text-emerald-400 transition-colors">
+                  expand_more
+                </span>
+              </button>
+
+              {/* User Dropdown Menu */}
+              {userDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-[#142421] rounded-2xl shadow-xl border border-nordic/10 dark:border-emerald-500/20 py-2 z-50 backdrop-blur-md animate-fadeIn">
+                  {/* User Info Header */}
+                  <div className="px-4 py-3 border-b border-nordic/10 dark:border-emerald-500/20 flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full overflow-hidden bg-hint-of-green dark:bg-emerald-900/70 border border-mosque/20 dark:border-emerald-400/40 flex items-center justify-center text-mosque dark:text-emerald-300 font-bold text-sm flex-shrink-0">
+                      {avatarUrl ? (
+                        <img
+                          src={avatarUrl}
+                          alt={getUserDisplayName()}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span>{getUserInitial()}</span>
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-bold text-nordic dark:text-white truncate">
+                        {getUserDisplayName()}
+                      </p>
+                      <p className="text-[11px] text-nordic/60 dark:text-emerald-100/60 truncate">
+                        {user.email}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Menu Items */}
+                  <div className="py-1">
+                    <Link
+                      href="/buscar"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="px-4 py-2 text-xs font-medium text-nordic/80 dark:text-emerald-100/80 hover:bg-hint-of-green/20 dark:hover:bg-emerald-900/30 hover:text-mosque dark:hover:text-emerald-400 flex items-center gap-2.5 transition-colors"
+                    >
+                      <span className="material-symbols-outlined text-base">
+                        bookmark
+                      </span>
+                      {t.auth.myFavorites}
+                    </Link>
+
+                    <Link
+                      href="/buscar"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="px-4 py-2 text-xs font-medium text-nordic/80 dark:text-emerald-100/80 hover:bg-hint-of-green/20 dark:hover:bg-emerald-900/30 hover:text-mosque dark:hover:text-emerald-400 flex items-center gap-2.5 transition-colors"
+                    >
+                      <span className="material-symbols-outlined text-base">
+                        add_home
+                      </span>
+                      {t.auth.publishProperty}
+                    </Link>
+                  </div>
+
+                  {/* Sign Out Button */}
+                  <div className="border-t border-nordic/10 dark:border-emerald-500/20 pt-1 mt-1">
+                    <button
+                      onClick={async () => {
+                        setUserDropdownOpen(false);
+                        await signOut();
+                      }}
+                      className="w-full px-4 py-2.5 text-xs font-semibold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 flex items-center gap-2.5 transition-colors cursor-pointer"
+                    >
+                      <span className="material-symbols-outlined text-base">
+                        logout
+                      </span>
+                      {t.auth.logout}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="hidden md:inline-flex text-sm font-semibold text-nordic dark:text-emerald-100 hover:text-mosque dark:hover:text-emerald-400 transition-colors py-2 px-3 rounded-lg hover:bg-hint-of-green/20 dark:hover:bg-emerald-900/20"
+            >
+              {t.nav.login}
+            </Link>
+          )}
+
+          {/* Action CTA Button */}
+          <Link
+            href={user ? "/buscar" : "/login"}
+            className="bg-mosque dark:bg-emerald-600 text-white hover:bg-mosque/90 dark:hover:bg-emerald-500 transition-colors py-2 px-4 md:px-5 rounded-full text-xs md:text-sm font-semibold active:scale-95 duration-150 shadow-sm flex items-center gap-1"
           >
             {t.nav.publish}
-          </a>
+          </Link>
 
           {/* Mobile Menu Button */}
           <button
@@ -192,6 +347,31 @@ export default function Navbar() {
       {/* Mobile Navigation Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-white dark:bg-[#142421] border-t border-nordic/10 dark:border-emerald-500/20 px-6 py-4 flex flex-col gap-3 shadow-lg">
+          {/* If user is logged in, show user info in mobile menu */}
+          {user && (
+            <div className="flex items-center gap-3 pb-3 border-b border-nordic/10 dark:border-emerald-500/20">
+              <div className="w-10 h-10 rounded-full overflow-hidden bg-hint-of-green dark:bg-emerald-900/70 border border-mosque/20 dark:border-emerald-400/40 flex items-center justify-center text-mosque dark:text-emerald-300 font-bold text-sm">
+                {avatarUrl ? (
+                  <img
+                    src={avatarUrl}
+                    alt={getUserDisplayName()}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span>{getUserInitial()}</span>
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-bold text-nordic dark:text-white truncate">
+                  {getUserDisplayName()}
+                </p>
+                <p className="text-xs text-nordic/60 dark:text-emerald-100/60 truncate">
+                  {user.email}
+                </p>
+              </div>
+            </div>
+          )}
+
           <Link
             href="/buscar?intent=buy"
             onClick={() => setMobileMenuOpen(false)}
@@ -213,16 +393,30 @@ export default function Navbar() {
           >
             {t.nav.sell}
           </Link>
-          <a
-            href="#"
-            className="text-base font-medium text-nordic dark:text-emerald-100 py-2 border-b border-nordic/5 dark:border-emerald-500/10"
-          >
-            {t.nav.login}
-          </a>
+
+          {user ? (
+            <button
+              onClick={async () => {
+                setMobileMenuOpen(false);
+                await signOut();
+              }}
+              className="text-base font-medium text-red-600 dark:text-red-400 py-2 text-left flex items-center gap-2"
+            >
+              <span className="material-symbols-outlined text-lg">logout</span>
+              {t.auth.logout}
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-base font-medium text-nordic dark:text-emerald-100 py-2 border-b border-nordic/5 dark:border-emerald-500/10 flex items-center gap-2"
+            >
+              <span className="material-symbols-outlined text-lg">login</span>
+              {t.nav.login}
+            </Link>
+          )}
         </div>
       )}
     </header>
   );
 }
-
-

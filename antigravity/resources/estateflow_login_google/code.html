@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EstateFlow - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;family=JetBrains+Mono:wght@600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Custom Input Styles */
+        .ef-input:focus {
+            border-color: #059669 !important;
+            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1) !important;
+            outline: none;
+        }
+        
+        .ef-glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(5, 150, 105, 0.1);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "outline-variant": "#bccac0",
+                      "primary-fixed": "#85f8c4",
+                      "inverse-surface": "#27313f",
+                      "secondary-fixed-dim": "#95d3ba",
+                      "on-tertiary-fixed-variant": "#3e4943",
+                      "on-tertiary": "#ffffff",
+                      "error": "#ba1a1a",
+                      "tertiary": "#535f58",
+                      "tertiary-container": "#6b7770",
+                      "secondary-container": "#adedd3",
+                      "on-surface": "#121c2a",
+                      "surface-tint": "#006c4a",
+                      "tertiary-fixed-dim": "#bdcac1",
+                      "on-primary": "#ffffff",
+                      "secondary": "#2b6954",
+                      "on-secondary-fixed-variant": "#0b513d",
+                      "surface-variant": "#d9e3f6",
+                      "on-primary-fixed": "#002114",
+                      "surface-bright": "#f8f9ff",
+                      "primary-container": "#00855d",
+                      "outline": "#6d7a72",
+                      "on-primary-container": "#f5fff7",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed": "#002117",
+                      "surface-container-highest": "#d9e3f6",
+                      "on-primary-fixed-variant": "#005137",
+                      "on-error-container": "#93000a",
+                      "on-background": "#121c2a",
+                      "inverse-primary": "#68dba9",
+                      "background": "#f8f9ff",
+                      "surface-container": "#e6eeff",
+                      "secondary-fixed": "#b0f0d6",
+                      "on-surface-variant": "#3d4a42",
+                      "inverse-on-surface": "#eaf1ff",
+                      "primary-fixed-dim": "#68dba9",
+                      "on-tertiary-fixed": "#131e19",
+                      "on-tertiary-container": "#f5fff7",
+                      "surface-container-high": "#dee9fc",
+                      "surface-dim": "#d0dbed",
+                      "tertiary-fixed": "#d9e6dd",
+                      "on-error": "#ffffff",
+                      "on-secondary-container": "#306d58",
+                      "surface": "#f8f9ff",
+                      "primary": "#006948",
+                      "surface-container-low": "#eff4ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "2xl": "1rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-margin-desktop": "40px",
+                      "gutter": "24px",
+                      "base": "8px",
+                      "stack-sm": "12px",
+                      "stack-lg": "48px",
+                      "stack-md": "24px",
+                      "container-margin-mobile": "20px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter", "sans-serif"
+                      ],
+                      "headline-lg": [
+                              "Manrope", "sans-serif"
+                      ],
+                      "headline-lg-mobile": [
+                              "Manrope", "sans-serif"
+                      ],
+                      "display-lg": [
+                              "Manrope", "sans-serif"
+                      ],
+                      "label-caps": [
+                              "JetBrains Mono", "monospace"
+                      ],
+                      "body-sm": [
+                              "Inter", "sans-serif"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+<!-- TopAppBar Navigation (Suppressed on transactional Login screen as per Semantic Shell Mandate) -->
+<!-- However, the prompt specifically requested: "Ensure the layout is consistent with the existing desktop screens, including the TopNavBar and Footer components."
+         Conflict Resolution: User prompt overrides general mandate for this specific request, but we adapt it to be less intrusive for a login flow. -->
+<header class="bg-surface dark:bg-on-surface w-full shadow-sm dark:bg-surface-container-low sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-container-margin-mobile md:px-container-margin-desktop py-4 max-w-7xl mx-auto">
+<!-- Brand -->
+<a class="text-headline-lg-mobile md:text-headline-lg font-headline-lg font-bold text-primary dark:text-primary-fixed-dim tracking-tight" href="/">
+                EstateFlow
+            </a>
+<!-- Minimal Navigation / Actions for Login screen -->
+<div class="flex items-center gap-4">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-md text-body-md hidden sm:block" href="#">Back to Home</a>
+</div>
+</div>
+</header>
+<!-- Main Content Area with Split Layout -->
+<main class="flex-grow flex w-full">
+<!-- Left Side: Login Form -->
+<div class="w-full lg:w-1/2 flex items-center justify-center p-container-margin-mobile md:p-container-margin-desktop bg-surface">
+<div class="w-full max-w-[420px] ef-glass-card rounded-2xl p-8 sm:p-10 shadow-[0_12px_40px_-12px_rgba(5,150,105,0.1)] relative z-10">
+<div class="mb-stack-md text-center">
+<h1 class="text-headline-lg font-headline-lg text-on-surface mb-2">Welcome Back</h1>
+<p class="text-body-md font-body-md text-on-surface-variant">Log in to manage your premium real estate portfolio.</p>
+</div>
+<!-- Google Login Button -->
+<button class="w-full flex items-center justify-center gap-3 bg-surface-container-lowest border border-outline-variant rounded-lg py-3 px-4 hover:bg-surface-container-low transition-all duration-200 mb-6 shadow-sm group">
+<svg class="w-5 h-5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+<span class="text-body-md font-body-md font-medium text-on-surface group-hover:text-primary transition-colors">Login with Google</span>
+</button>
+<!-- Divider -->
+<div class="flex items-center my-6">
+<div class="flex-grow border-t border-outline-variant opacity-50"></div>
+<span class="px-4 text-body-sm font-body-sm text-on-surface-variant uppercase tracking-wider text-xs">Or continue with</span>
+<div class="flex-grow border-t border-outline-variant opacity-50"></div>
+</div>
+<!-- Standard Login Form -->
+<form action="#" class="space-y-4" method="POST">
+<div>
+<label class="block text-body-sm font-body-sm font-medium text-on-surface mb-1" for="email">Email Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">mail</span>
+<input class="ef-input w-full pl-10 pr-4 py-3 bg-surface-container-lowest border border-outline-variant rounded-lg text-body-md font-body-md text-on-surface placeholder:text-on-surface-variant/50 focus:ring-0 transition-all" id="email" name="email" placeholder="name@company.com" required="" type="email"/>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1">
+<label class="block text-body-sm font-body-sm font-medium text-on-surface" for="password">Password</label>
+<a class="text-body-sm font-body-sm text-primary hover:text-primary-container font-medium transition-colors" href="#">Forgot Password?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">lock</span>
+<input class="ef-input w-full pl-10 pr-10 py-3 bg-surface-container-lowest border border-outline-variant rounded-lg text-body-md font-body-md text-on-surface placeholder:text-on-surface-variant/50 focus:ring-0 transition-all" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors focus:outline-none" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility_off</span>
+</button>
+</div>
+</div>
+<div class="flex items-center mt-2 mb-6">
+<input class="h-4 w-4 rounded border-outline-variant text-primary focus:ring-primary focus:ring-offset-0 bg-surface-container-lowest cursor-pointer" id="remember-me" name="remember-me" type="checkbox"/>
+<label class="ml-2 block text-body-sm font-body-sm text-on-surface-variant cursor-pointer" for="remember-me">
+                            Remember me for 30 days
+                        </label>
+</div>
+<button class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-body-md font-body-md font-medium text-on-primary bg-primary hover:bg-primary-container focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-200 active:scale-[0.98]" type="submit">
+                        Sign In to EstateFlow
+                    </button>
+</form>
+<p class="mt-8 text-center text-body-sm font-body-sm text-on-surface-variant">
+                    Don't have an account? 
+                    <a class="font-medium text-primary hover:text-primary-container transition-colors underline underline-offset-4" href="#">Sign up</a>
+</p>
+</div>
+</div>
+<!-- Right Side: Decorative Image Area -->
+<div class="hidden lg:block lg:w-1/2 relative bg-surface-container overflow-hidden">
+<!-- Subtle architectural background image -->
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center" data-alt="A striking architectural photograph of a modern, sustainable luxury home interior featuring massive floor-to-ceiling windows. The room is flooded with soft, high-key natural light creating a bright, airy light-mode aesthetic. The composition highlights clean geometric lines, polished white stone floors, and rich emerald green plant accents. The mood is serene, highly professional, and evocative of high-end real estate." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAITg4TweKQXcBYoeLujQdUtkC13FSZpwl4IQ18sSAC-b03vvO7sqEhc3PsX7ND2KDhcoLtpt3Gh9HFN_o_V0ErTYT2j42w562snZ8cCBwYeA2Mu0rCaAyQ7DeI1wkyTuMSZxLWat5PlftRZqK1vMIpfR3zTtYuw7XGdwcN0Ajdbo6Y7RRzBUM3NzQAYMID5NYftUD0492mCKKrUWJXCiQ4XckizC7GLEUGpmWdvR7ew_2laGGJ1hKcVQ')"></div>
+<!-- Gradient overlay to blend with theme -->
+<div class="absolute inset-0 bg-gradient-to-br from-surface/40 via-surface/20 to-primary/20 backdrop-blur-[2px]"></div>
+</div>
+<!-- Overlay Content -->
+<div class="absolute inset-0 z-10 flex flex-col justify-center items-start p-16 xl:p-24">
+<div class="bg-surface-container-lowest/80 backdrop-blur-md p-8 rounded-2xl border border-primary/10 shadow-lg max-w-md">
+<span class="material-symbols-outlined text-primary text-4xl mb-4">architecture</span>
+<h2 class="text-headline-lg font-headline-lg text-on-surface mb-3">Elevate your portfolio</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">Experience High-End Tech-Naturalism. EstateFlow provides precision tools for managing premium properties with effortless competence.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Component -->
+<footer class="bg-surface-container-lowest dark:bg-inverse-surface border-t border-outline-variant dark:border-tertiary-container w-full mt-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-container-margin-mobile md:px-container-margin-desktop py-stack-lg max-w-7xl mx-auto">
+<!-- Brand Column -->
+<div class="col-span-1 md:col-span-1 flex flex-col gap-4">
+<span class="text-title-md font-title-md font-bold text-primary dark:text-primary-fixed-dim">EstateFlow</span>
+<p class="text-caption font-caption text-on-surface-variant dark:text-on-tertiary-container opacity-80">
+                    © 2024 EstateFlow Real Estate. All rights reserved.
+                </p>
+</div>
+<!-- Links Column -->
+<div class="col-span-1 md:col-span-3 flex flex-wrap gap-x-8 gap-y-4 md:justify-end items-center">
+<a class="text-body-md font-body-md text-on-surface-variant dark:text-on-tertiary-container hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all opacity-80 hover:opacity-100" href="#">About Us</a>
+<a class="text-body-md font-body-md text-on-surface-variant dark:text-on-tertiary-container hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all opacity-80 hover:opacity-100" href="#">Contact</a>
+<a class="text-body-md font-body-md text-on-surface-variant dark:text-on-tertiary-container hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="text-body-md font-body-md text-on-surface-variant dark:text-on-tertiary-container hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+<a class="text-body-md font-body-md text-on-surface-variant dark:text-on-tertiary-container hover:text-primary dark:hover:text-primary-fixed-dim underline transition-all opacity-80 hover:opacity-100" href="#">Neighborhood Guides</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple password visibility toggle
+        const toggleBtn = document.querySelector('button[type="button"]');
+        const passwordInput = document.getElementById('password');
+        const icon = toggleBtn.querySelector('.material-symbols-outlined');
+
+        if(toggleBtn && passwordInput && icon) {
+            toggleBtn.addEventListener('click', () => {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.textContent = 'visibility';
+                } else {
+                    passwordInput.type = 'password';
+                    icon.textContent = 'visibility_off';
+                }
+            });
+        }
+    </script>
+</body></html>
