@@ -2,10 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import LanguageSelector from "./LanguageSelector";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 type Theme = "system" | "light" | "dark";
 
 export default function Navbar() {
+  const { t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>("system");
   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
@@ -78,24 +81,27 @@ export default function Navbar() {
             href="/buscar?intent=buy"
             className="text-sm font-semibold text-nordic dark:text-white hover:text-mosque dark:hover:text-emerald-400 border-b-2 border-transparent hover:border-mosque dark:hover:border-emerald-400 pb-1 transition-all active:scale-95 duration-150"
           >
-            Comprar
+            {t.nav.buy}
           </Link>
           <Link
             href="/buscar?intent=rent"
             className="text-sm font-medium text-nordic/70 dark:text-emerald-100/70 hover:text-nordic dark:hover:text-white hover:bg-hint-of-green/40 dark:hover:bg-emerald-900/30 px-3 py-2 rounded-lg transition-colors active:scale-95 duration-150"
           >
-            Rentar
+            {t.nav.rent}
           </Link>
           <Link
             href="/buscar"
             className="text-sm font-medium text-nordic/70 dark:text-emerald-100/70 hover:text-nordic dark:hover:text-white hover:bg-hint-of-green/40 dark:hover:bg-emerald-900/30 px-3 py-2 rounded-lg transition-colors active:scale-95 duration-150"
           >
-            Vender
+            {t.nav.sell}
           </Link>
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center gap-3 md:gap-4">
+        <div className="flex items-center gap-2 md:gap-3">
+          {/* Language Selector Dropdown */}
+          <LanguageSelector />
+
           {/* Theme Switcher Dropdown */}
           <div className="relative">
             <button
@@ -161,13 +167,13 @@ export default function Navbar() {
             href="#"
             className="hidden md:inline-flex text-sm font-semibold text-nordic dark:text-emerald-100 hover:text-mosque dark:hover:text-emerald-400 transition-colors py-2 px-3"
           >
-            Iniciar Sesión
+            {t.nav.login}
           </a>
           <a
             href="#"
             className="bg-mosque dark:bg-emerald-600 text-white hover:bg-mosque/90 dark:hover:bg-emerald-500 transition-colors py-2 px-5 rounded-full text-xs md:text-sm font-semibold active:scale-95 duration-150 shadow-sm flex items-center gap-1"
           >
-            Publicar
+            {t.nav.publish}
           </a>
 
           {/* Mobile Menu Button */}
@@ -191,31 +197,32 @@ export default function Navbar() {
             onClick={() => setMobileMenuOpen(false)}
             className="text-base font-semibold text-mosque dark:text-emerald-400 py-2 border-b border-nordic/5 dark:border-emerald-500/10"
           >
-            Comprar
+            {t.nav.buy}
           </Link>
           <Link
             href="/buscar?intent=rent"
             onClick={() => setMobileMenuOpen(false)}
             className="text-base font-medium text-nordic dark:text-emerald-100 py-2 border-b border-nordic/5 dark:border-emerald-500/10"
           >
-            Rentar
+            {t.nav.rent}
           </Link>
           <Link
             href="/buscar"
             onClick={() => setMobileMenuOpen(false)}
             className="text-base font-medium text-nordic dark:text-emerald-100 py-2 border-b border-nordic/5 dark:border-emerald-500/10"
           >
-            Vender
+            {t.nav.sell}
           </Link>
           <a
             href="#"
             className="text-base font-medium text-nordic dark:text-emerald-100 py-2 border-b border-nordic/5 dark:border-emerald-500/10"
           >
-            Iniciar Sesión
+            {t.nav.login}
           </a>
         </div>
       )}
     </header>
   );
 }
+
 

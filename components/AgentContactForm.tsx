@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 interface AgentContactFormProps {
   propertyTitle: string;
@@ -11,12 +12,13 @@ export default function AgentContactForm({
   propertyTitle,
   propertyAddress,
 }: AgentContactFormProps) {
+  const { t } = useLanguage();
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     phone: "",
-    message: `Hola, estoy interesado en recibir más detalles sobre ${propertyTitle} (${propertyAddress}).`,
+    message: `${t.propertyDetail.messagePlaceholder} (${propertyTitle})`,
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -41,7 +43,7 @@ export default function AgentContactForm({
             Sarah Jenkins
           </h3>
           <p className="text-xs font-semibold text-mosque dark:text-emerald-400">
-            Directora de Propiedades Exclusivas
+            {t.propertyDetail.agentRole}
           </p>
         </div>
       </div>
@@ -52,11 +54,8 @@ export default function AgentContactForm({
             check_circle
           </span>
           <h4 className="text-sm font-bold text-nordic dark:text-white">
-            ¡Consulta Enviada!
+            {t.propertyDetail.successMessage}
           </h4>
-          <p className="text-xs text-nordic/70 dark:text-emerald-100/70 mt-1">
-            Sarah Jenkins se pondrá en contacto contigo a la brevedad.
-          </p>
         </div>
       ) : (
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -64,7 +63,7 @@ export default function AgentContactForm({
             <input
               type="text"
               required
-              placeholder="Nombre Completo"
+              placeholder={t.propertyDetail.fullName}
               value={formData.fullName}
               onChange={(e) =>
                 setFormData({ ...formData, fullName: e.target.value })
@@ -76,7 +75,7 @@ export default function AgentContactForm({
             <input
               type="email"
               required
-              placeholder="Correo Electrónico"
+              placeholder={t.propertyDetail.email}
               value={formData.email}
               onChange={(e) =>
                 setFormData({ ...formData, email: e.target.value })
@@ -87,7 +86,7 @@ export default function AgentContactForm({
           <div>
             <input
               type="tel"
-              placeholder="Número de Teléfono"
+              placeholder={t.propertyDetail.phone}
               value={formData.phone}
               onChange={(e) =>
                 setFormData({ ...formData, phone: e.target.value })
@@ -109,16 +108,11 @@ export default function AgentContactForm({
             type="submit"
             className="w-full bg-mosque dark:bg-emerald-600 hover:bg-mosque/90 dark:hover:bg-emerald-500 text-white py-3.5 rounded-xl text-sm font-semibold transition-colors shadow-sm active:scale-98 cursor-pointer"
           >
-            Solicitar Visita
-          </button>
-          <button
-            type="submit"
-            className="w-full bg-transparent border border-nordic/20 dark:border-emerald-500/30 text-nordic dark:text-white hover:bg-hint-of-green/20 dark:hover:bg-emerald-950/40 py-3 rounded-xl text-sm font-semibold transition-colors cursor-pointer"
-          >
-            Realizar Consulta
+            {t.propertyDetail.sendButton}
           </button>
         </form>
       )}
     </div>
   );
 }
+

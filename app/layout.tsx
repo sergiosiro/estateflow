@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { LanguageProvider } from "@/lib/i18n/LanguageContext";
 
 export const metadata: Metadata = {
   title: "EstateFlow - Real Estate Marketplace",
@@ -37,9 +38,10 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col bg-clear-day dark:bg-[#0d1816] text-nordic dark:text-[#e6f3f0] font-sans transition-colors duration-300">
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );
 }
+
 

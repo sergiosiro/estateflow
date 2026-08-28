@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 export interface AdvancedFiltersState {
   amenities: string[];
@@ -19,24 +20,6 @@ interface AdvancedFiltersModalProps {
   onClear: () => void;
 }
 
-const AVAILABLE_AMENITIES = [
-  { id: "pool", label: "Pool / Piscina", icon: "pool" },
-  { id: "garage", label: "Garage / Garaje", icon: "garage" },
-  { id: "garden", label: "Garden / Jardín", icon: "yard" },
-  { id: "gym", label: "Gym / Gimnasio", icon: "fitness_center" },
-  { id: "balcony", label: "Balcony / Balcón", icon: "balcony" },
-  { id: "ac", label: "Air Conditioning", icon: "ac_unit" },
-  { id: "elevator", label: "Elevator / Ascensor", icon: "elevator" },
-];
-
-const PROPERTY_STATUSES = [
-  { id: "all", label: "Todos" },
-  { id: "new", label: "New / Nuevo" },
-  { id: "open", label: "Open House" },
-  { id: "pricedrop", label: "Price Drop / Oferta" },
-  { id: "featured", label: "Featured / Destacado" },
-];
-
 export default function AdvancedFiltersModal({
   isOpen,
   onClose,
@@ -44,12 +27,30 @@ export default function AdvancedFiltersModal({
   onApply,
   onClear,
 }: AdvancedFiltersModalProps) {
+  const { t } = useLanguage();
   const [amenities, setAmenities] = useState<string[]>(initialFilters.amenities || []);
   const [minSqft, setMinSqft] = useState(initialFilters.minSqft || "");
   const [maxSqft, setMaxSqft] = useState(initialFilters.maxSqft || "");
   const [minYear, setMinYear] = useState(initialFilters.minYear || "");
   const [maxYear, setMaxYear] = useState(initialFilters.maxYear || "");
   const [status, setStatus] = useState(initialFilters.status || "all");
+
+  const AVAILABLE_AMENITIES = [
+    { id: "pool", label: t.filters.pool, icon: "pool" },
+    { id: "garage", label: t.filters.garage, icon: "garage" },
+    { id: "garden", label: t.filters.garden, icon: "yard" },
+    { id: "gym", label: t.filters.gym, icon: "fitness_center" },
+    { id: "seaView", label: t.filters.seaView, icon: "water" },
+    { id: "security", label: t.filters.security, icon: "shield" },
+  ];
+
+  const PROPERTY_STATUSES = [
+    { id: "all", label: t.filters.any },
+    { id: "new", label: t.card.tags.new },
+    { id: "open", label: t.card.tags.open },
+    { id: "pricedrop", label: t.card.tags.pricedrop },
+    { id: "featured", label: t.card.tags.featured },
+  ];
 
   useEffect(() => {
     setAmenities(initialFilters.amenities || []);
@@ -95,17 +96,15 @@ export default function AdvancedFiltersModal({
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-nordic/60 dark:bg-black/80 backdrop-blur-xs animate-in fade-in duration-200">
-      {/* Modal Container */}
       <div className="bg-white dark:bg-[#142421] w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-nordic/10 dark:border-emerald-500/20">
         
-        {/* Modal Header */}
         <div className="flex items-center justify-between p-6 border-b border-nordic/10 dark:border-emerald-500/20 bg-clear-day/40 dark:bg-[#0d1816]/40">
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-mosque dark:text-emerald-400 text-2xl">
               tune
             </span>
             <h2 className="text-xl font-bold text-nordic dark:text-white">
-              Advanced Filters
+              {t.filters.title}
             </h2>
           </div>
           <button
@@ -117,14 +116,12 @@ export default function AdvancedFiltersModal({
           </button>
         </div>
 
-        {/* Modal Body */}
         <div className="p-6 overflow-y-auto flex flex-col gap-8">
           
-          {/* Section: Amenities */}
           <section>
             <h3 className="text-xs font-bold tracking-wider text-nordic/70 dark:text-emerald-300 uppercase mb-4 flex items-center gap-1.5">
               <span className="material-symbols-outlined text-base">checklist</span>
-              Amenities / Comodidades
+              {t.filters.amenities}
             </h3>
             <div className="flex flex-wrap gap-2.5">
               {AVAILABLE_AMENITIES.map((item) => {
@@ -148,16 +145,15 @@ export default function AdvancedFiltersModal({
             </div>
           </section>
 
-          {/* Section: Square Feet */}
           <section>
             <h3 className="text-xs font-bold tracking-wider text-nordic/70 dark:text-emerald-300 uppercase mb-4 flex items-center gap-1.5">
               <span className="material-symbols-outlined text-base">square_foot</span>
-              Square Feet / Superficie ($m^2$)
+              {t.card.sqft}
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-semibold text-nordic/70 dark:text-emerald-100/70">
-                  Mínimo (sqft)
+                  {t.filters.minPrice} (sqft)
                 </label>
                 <input
                   type="number"
@@ -169,7 +165,7 @@ export default function AdvancedFiltersModal({
               </div>
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-semibold text-nordic/70 dark:text-emerald-100/70">
-                  Máximo (sqft)
+                  {t.filters.maxPrice} (sqft)
                 </label>
                 <input
                   type="number"
@@ -182,7 +178,6 @@ export default function AdvancedFiltersModal({
             </div>
           </section>
 
-          {/* Section: Year Built */}
           <section>
             <h3 className="text-xs font-bold tracking-wider text-nordic/70 dark:text-emerald-300 uppercase mb-4 flex items-center gap-1.5">
               <span className="material-symbols-outlined text-base">calendar_today</span>
@@ -216,11 +211,10 @@ export default function AdvancedFiltersModal({
             </div>
           </section>
 
-          {/* Section: Property Status */}
           <section>
             <h3 className="text-xs font-bold tracking-wider text-nordic/70 dark:text-emerald-300 uppercase mb-4 flex items-center gap-1.5">
               <span className="material-symbols-outlined text-base">sell</span>
-              Property Status / Estado
+              {t.filters.propertyType}
             </h3>
             <div className="flex flex-wrap gap-2.5">
               {PROPERTY_STATUSES.map((st) => (
@@ -241,21 +235,20 @@ export default function AdvancedFiltersModal({
           </section>
         </div>
 
-        {/* Modal Footer */}
         <div className="p-6 border-t border-nordic/10 dark:border-emerald-500/20 bg-clear-day/40 dark:bg-[#0d1816]/40 flex justify-between items-center">
           <button
             type="button"
             onClick={handleClear}
             className="text-nordic/70 dark:text-emerald-200 font-semibold text-xs md:text-sm hover:text-mosque dark:hover:text-emerald-400 hover:bg-hint-of-green/20 px-4 py-2.5 rounded-xl transition-colors"
           >
-            Clear All / Limpiar
+            {t.search.clearFilters}
           </button>
           <button
             type="button"
             onClick={handleApply}
             className="bg-mosque dark:bg-emerald-600 text-white font-bold text-xs md:text-sm px-8 py-2.5 rounded-xl hover:bg-mosque/90 dark:hover:bg-emerald-500 transition-all shadow-md active:scale-95 duration-150"
           >
-            Show Results / Ver Resultados
+            {t.search.applyFilters}
           </button>
         </div>
       </div>

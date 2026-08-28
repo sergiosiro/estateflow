@@ -1,0 +1,133 @@
+export type Language = "es" | "en" | "fr";
+
+export interface LanguageOption {
+  code: Language;
+  name: string;
+  nativeName: string;
+  flagSvg: string; // SVG path or SVG string for flag rendering
+}
+
+export interface Translations {
+  nav: {
+    buy: string;
+    rent: string;
+    sell: string;
+    login: string;
+    publish: string;
+  };
+  hero: {
+    title: string;
+    subtitle: string;
+    buyTab: string;
+    rentTab: string;
+    locationPlaceholder: string;
+    maxPriceLabel: string;
+    priceOptions: {
+      any: string;
+      p500: string;
+      p1m: string;
+      p2m: string;
+    };
+    searchButton: string;
+  };
+  home: {
+    featuredTitle: string;
+    featuredSubtitle: string;
+    pageLabel: string;
+    ofLabel: string;
+    noPropertiesTitle: string;
+    noPropertiesSubtitle: string;
+    prevPage: string;
+    nextPage: string;
+    showingResults: string;
+  };
+  card: {
+    beds: string;
+    baths: string;
+    sqft: string;
+    viewDetails: string;
+    favoriteAdd: string;
+    favoriteRemove: string;
+    tags: {
+      pricedrop: string;
+      open: string;
+      featured: string;
+      new: string;
+    };
+  };
+  search: {
+    title: string;
+    resultsCount: string;
+    filterButton: string;
+    sortLabel: string;
+    sortOptions: {
+      recent: string;
+      priceLow: string;
+      priceHigh: string;
+      beds: string;
+    };
+    clearFilters: string;
+    applyFilters: string;
+    allIntents: string;
+  };
+  filters: {
+    title: string;
+    propertyType: string;
+    allTypes: string;
+    house: string;
+    apartment: string;
+    villa: string;
+    penthouse: string;
+    townhouse: string;
+    priceRange: string;
+    minPrice: string;
+    maxPrice: string;
+    bedrooms: string;
+    bathrooms: string;
+    any: string;
+    amenities: string;
+    pool: string;
+    garage: string;
+    garden: string;
+    gym: string;
+    seaView: string;
+    security: string;
+    reset: string;
+  };
+  propertyDetail: {
+    backToSearch: string;
+    overview: string;
+    description: string;
+    features: string;
+    location: string;
+    contactAgent: string;
+    agentName: string;
+    agentRole: string;
+    fullName: string;
+    email: string;
+    phone: string;
+    message: string;
+    messagePlaceholder: string;
+    sendButton: string;
+    sending: string;
+    successMessage: string;
+    price: string;
+    estMortgage: string;
+    lotSize: string;
+  };
+  footer: {
+    tagline: string;
+    company: string;
+    aboutUs: string;
+    contact: string;
+    careers: string;
+    resources: string;
+    neighborhoodGuide: string;
+    marketReports: string;
+    mortgageCalc: string;
+    legal: string;
+    privacy: string;
+    terms: string;
+    copyright: string;
+  };
+}

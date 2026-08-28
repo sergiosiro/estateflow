@@ -6,6 +6,7 @@ import PropertyCard from "@/components/PropertyCard";
 import Footer from "@/components/Footer";
 import Pagination from "@/components/Pagination";
 import { Property } from "@/types/property";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 interface HomeScreenProps {
   properties: Property[];
@@ -22,6 +23,8 @@ export default function HomeScreen({
   totalCount,
   pageSize,
 }: HomeScreenProps) {
+  const { t } = useLanguage();
+
   return (
     <div className="min-h-screen flex flex-col bg-clear-day dark:bg-[#0d1816] text-nordic dark:text-[#e6f3f0] transition-colors duration-300">
       {/* Top Navbar */}
@@ -38,14 +41,14 @@ export default function HomeScreen({
           <div className="flex justify-between items-end mb-8">
             <div>
               <h2 className="text-2xl md:text-3xl font-bold text-nordic dark:text-white mb-1">
-                Propiedades Destacadas
+                {t.home.featuredTitle}
               </h2>
               <p className="text-sm md:text-base text-nordic/70 dark:text-emerald-100/70">
-                Explora nuestra selección exclusiva de inmuebles premium.
+                {t.home.featuredSubtitle}
               </p>
             </div>
             <div className="text-xs md:text-sm font-medium px-3 py-1.5 rounded-full bg-hint-of-green/40 dark:bg-emerald-950/60 text-mosque dark:text-emerald-300 border border-mosque/20 dark:border-emerald-500/30">
-              Página {currentPage} de {totalPages || 1}
+              {t.home.pageLabel} {currentPage} {t.home.ofLabel} {totalPages || 1}
             </div>
           </div>
 
@@ -62,10 +65,10 @@ export default function HomeScreen({
                 home_work
               </span>
               <h3 className="text-lg font-bold text-nordic dark:text-white mb-1">
-                No se encontraron propiedades
+                {t.home.noPropertiesTitle}
               </h3>
               <p className="text-sm text-nordic/60 dark:text-emerald-100/60">
-                No hay propiedades disponibles en esta página.
+                {t.home.noPropertiesSubtitle}
               </p>
             </div>
           )}
@@ -85,3 +88,4 @@ export default function HomeScreen({
     </div>
   );
 }
+

@@ -39,10 +39,26 @@ export function mapSupabaseItemToProperty(item: any): Property {
   const title = item.title || "Propiedad sin título";
   const propertySlug = item.slug || slugify(title);
 
+  const titleTranslations: Record<string, string> = {};
+  if (item.title_es || item.title_spanish) titleTranslations.es = item.title_es || item.title_spanish;
+  if (item.title_en || item.title_english) titleTranslations.en = item.title_en || item.title_english;
+  if (item.title_fr || item.title_french) titleTranslations.fr = item.title_fr || item.title_french;
+
+  const descriptionTranslations: Record<string, string> = {};
+  if (item.description_es || item.description_spanish) descriptionTranslations.es = item.description_es || item.description_spanish;
+  if (item.description_en || item.description_english) descriptionTranslations.en = item.description_en || item.description_english;
+  if (item.description_fr || item.description_french) descriptionTranslations.fr = item.description_fr || item.description_french;
+
+  const tagTranslations: Record<string, string> = {};
+  if (item.badge_text_es || item.tag_es) tagTranslations.es = item.badge_text_es || item.tag_es;
+  if (item.badge_text_en || item.tag_en) tagTranslations.en = item.badge_text_en || item.tag_en;
+  if (item.badge_text_fr || item.tag_fr) tagTranslations.fr = item.badge_text_fr || item.tag_fr;
+
   return {
     id: String(item.id),
     slug: propertySlug,
     title,
+    titleTranslations: Object.keys(titleTranslations).length > 0 ? titleTranslations : undefined,
     price: numericPrice,
     formattedPrice: new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -57,11 +73,13 @@ export function mapSupabaseItemToProperty(item: any): Property {
     baths: Number(item.baths) || 0,
     sqft: Number(item.sqft) || 0,
     tag: item.badge_text || "Destacado",
+    tagTranslations: Object.keys(tagTranslations).length > 0 ? tagTranslations : undefined,
     tagType: tagTypeMapped,
     imageUrl: mainImageUrl,
     imageAlt: item.image_alt || title,
     images: imageCollection,
     description: item.description || undefined,
+    descriptionTranslations: Object.keys(descriptionTranslations).length > 0 ? descriptionTranslations : undefined,
     isFavorite: Boolean(item.is_favorite),
   };
 }

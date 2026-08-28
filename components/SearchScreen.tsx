@@ -8,6 +8,8 @@ import Footer from "@/components/Footer";
 import PropertyCard from "@/components/PropertyCard";
 import AdvancedFiltersModal, { AdvancedFiltersState } from "@/components/AdvancedFiltersModal";
 import { Property } from "@/types/property";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { getLocalizedProperty } from "@/lib/i18n/translateProperty";
 
 const SearchMap = dynamic(() => import("@/components/SearchMap"), {
   ssr: false,
@@ -28,6 +30,7 @@ interface SearchScreenProps {
 export default function SearchScreen({ initialProperties }: SearchScreenProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { language, t } = useLanguage();
 
   // Filter States synced with URL search params
   const [location, setLocation] = useState(searchParams.get("location") || "");
@@ -111,42 +114,46 @@ export default function SearchScreen({ initialProperties }: SearchScreenProps) {
   };
 
   const hasAdvancedFilters = Boolean(
-    minSqft || maxSqft || minYear || maxYear || (status && status !== "all") || amenities.length > 0
+    minSqft || maxSqft || minYear || maxYear || (status && status !== "all") || (amenities && amenities.length > 0)
   );
 
   // Client-side filtering on initialProperties or current dataset
   const filteredProperties = initialProperties.filter((property) => {
-    // Location search
+    const locProp = getLocalizedProperty(property, language);
+
+    // Location Filter
     if (location.trim()) {
-      const term = location.trim().toLowerCase();
-      const matchText = `${property.title} ${property.address} ${property.city} ${property.state} ${property.zipCode || ""}`.toLowerCase();
-      if (!matchText.includes(term)) return false;
+      const locTerm = location.toLowerCase().trim();
+      const matchLoc =
+        locProp.city.toLowerCase().includes(locTerm) ||
+        locProp.state.toLowerCase().includes(locTerm) ||
+        locProp.address.toLowerCase().includes(locTerm) ||
+        locProp.title.toLowerCase().includes(locTerm) ||
+        (locProp.zipCode && locProp.zipCode.includes(locTerm));
+      if (!matchLoc) return false;
     }
 
-    // Min price
+    // Price Filters
+    if (maxPrice && Number(maxPrice) > 0) {
+      if (property.price > Number(maxPrice)) return false;
+    }
     if (minPrice && Number(minPrice) > 0) {
       if (property.price < Number(minPrice)) return false;
     }
 
-    // Max price
-    if (maxPrice && Number(maxPrice) > 0) {
-      if (property.price > Number(maxPrice)) return false;
-    }
-
-    // Beds
+    // Beds / Baths Filters
     if (beds && Number(beds) > 0) {
       if (property.beds < Number(beds)) return false;
     }
-
-    // Baths
     if (baths && Number(baths) > 0) {
       if (Number(property.baths) < Number(baths)) return false;
     }
 
-    // Property Type
+    // Property Type Filter
     if (propertyType && propertyType !== "all") {
       const typeTerm = propertyType.toLowerCase();
       const pTitle = property.title.toLowerCase();
+
       if (typeTerm === "house" || typeTerm === "casa") {
         if (!pTitle.includes("house") && !pTitle.includes("casa") && !pTitle.includes("residence") && !pTitle.includes("home") && !pTitle.includes("villa") && !pTitle.includes("chalet") && !pTitle.includes("manor")) return false;
       } else if (typeTerm === "apartment" || typeTerm === "departamento" || typeTerm === "condo") {
@@ -217,26 +224,26 @@ export default function SearchScreen({ initialProperties }: SearchScreenProps) {
 
   const getPriceLabel = () => {
     if (minPrice && maxPrice) return `$${(Number(minPrice)/1000)}k - $${(Number(maxPrice)/1000)}k`;
-    if (maxPrice) return `Hasta $${(Number(maxPrice)/1000)}k`;
-    if (minPrice) return `Desde $${(Number(minPrice)/1000)}k`;
-    return "Precio";
+    if (maxPrice) return `${t.filters.maxPrice}: $${(Number(maxPrice)/1000)}k`;
+    if (minPrice) return `${t.filters.minPrice}: $${(Number(minPrice)/1000)}k`;
+    return t.filters.priceRange;
   };
 
   const getBedsBathsLabel = () => {
     const parts = [];
-    if (beds) parts.push(`${beds}+ Hab`);
-    if (baths) parts.push(`${baths}+ Baños`);
-    return parts.length > 0 ? parts.join(", ") : "Cuartos & Baños";
+    if (beds) parts.push(`${beds}+ ${t.card.beds}`);
+    if (baths) parts.push(`${baths}+ ${t.card.baths}`);
+    return parts.length > 0 ? parts.join(", ") : `${t.filters.bedrooms} & ${t.filters.bathrooms}`;
   };
 
   const getPropertyTypeLabel = () => {
     switch (propertyType) {
-      case "house": return "Casas";
-      case "apartment": return "Departamentos";
-      case "villa": return "Villas";
-      case "penthouse": return "Penthouses";
-      case "townhouse": return "Townhouses";
-      default: return "Tipo de Propiedad";
+      case "house": return t.filters.house;
+      case "apartment": return t.filters.apartment;
+      case "villa": return t.filters.villa;
+      case "penthouse": return t.filters.penthouse;
+      case "townhouse": return t.filters.townhouse;
+      default: return t.filters.propertyType;
     }
   };
 
@@ -265,7 +272,7 @@ export default function SearchScreen({ initialProperties }: SearchScreenProps) {
                     if (e.key === "Enter") applyFilters({ location });
                   }}
                   onBlur={() => applyFilters({ location })}
-                  placeholder="Ciudad, vecindario o zona..."
+                  placeholder={t.hero.locationPlaceholder}
                   className="bg-transparent border-none focus:ring-0 p-0 text-xs md:text-sm font-medium w-full text-nordic dark:text-white placeholder:text-nordic/40 dark:placeholder:text-emerald-100/40 outline-none"
                 />
                 {location && (
@@ -292,10 +299,10 @@ export default function SearchScreen({ initialProperties }: SearchScreenProps) {
 
                 {openDropdown === "price" && (
                   <div className="absolute left-0 mt-2 w-64 bg-white dark:bg-[#142421] rounded-2xl shadow-xl border border-nordic/10 dark:border-emerald-500/20 p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                    <div className="text-xs font-bold text-nordic dark:text-white mb-3">Rango de Precio</div>
+                    <div className="text-xs font-bold text-nordic dark:text-white mb-3">{t.filters.priceRange}</div>
                     <div className="space-y-3">
                       <div>
-                        <label className="text-[11px] font-semibold text-nordic/60 dark:text-emerald-100/60 block mb-1">Precio Máximo</label>
+                        <label className="text-[11px] font-semibold text-nordic/60 dark:text-emerald-100/60 block mb-1">{t.filters.maxPrice}</label>
                         <select
                           value={maxPrice}
                           onChange={(e) => {
@@ -305,16 +312,14 @@ export default function SearchScreen({ initialProperties }: SearchScreenProps) {
                           }}
                           className="w-full bg-clear-day dark:bg-[#0d1816] border border-nordic/15 dark:border-emerald-500/30 rounded-xl px-3 py-2 text-xs font-medium text-nordic dark:text-white outline-none"
                         >
-                          <option value="">Cualquier precio</option>
-                          <option value="500000">Hasta $500,000 USD</option>
-                          <option value="1000000">Hasta $1,000,000 USD</option>
-                          <option value="2000000">Hasta $2,000,000 USD</option>
-                          <option value="3500000">Hasta $3,500,000 USD</option>
-                          <option value="5000000">Hasta $5,000,000 USD</option>
+                          <option value="">{t.filters.any}</option>
+                          <option value="500000">{t.hero.priceOptions.p500}</option>
+                          <option value="1000000">{t.hero.priceOptions.p1m}</option>
+                          <option value="2000000">{t.hero.priceOptions.p2m}</option>
                         </select>
                       </div>
                       <div>
-                        <label className="text-[11px] font-semibold text-nordic/60 dark:text-emerald-100/60 block mb-1">Precio Mínimo</label>
+                        <label className="text-[11px] font-semibold text-nordic/60 dark:text-emerald-100/60 block mb-1">{t.filters.minPrice}</label>
                         <select
                           value={minPrice}
                           onChange={(e) => {
@@ -324,10 +329,10 @@ export default function SearchScreen({ initialProperties }: SearchScreenProps) {
                           }}
                           className="w-full bg-clear-day dark:bg-[#0d1816] border border-nordic/15 dark:border-emerald-500/30 rounded-xl px-3 py-2 text-xs font-medium text-nordic dark:text-white outline-none"
                         >
-                          <option value="">Cualquier precio</option>
-                          <option value="500000">Desde $500,000 USD</option>
-                          <option value="1000000">Desde $1,000,000 USD</option>
-                          <option value="2000000">Desde $2,000,000 USD</option>
+                          <option value="">{t.filters.any}</option>
+                          <option value="500000">{t.hero.priceOptions.p500}</option>
+                          <option value="1000000">{t.hero.priceOptions.p1m}</option>
+                          <option value="2000000">{t.hero.priceOptions.p2m}</option>
                         </select>
                       </div>
                     </div>
@@ -352,10 +357,10 @@ export default function SearchScreen({ initialProperties }: SearchScreenProps) {
 
                 {openDropdown === "beds" && (
                   <div className="absolute left-0 mt-2 w-64 bg-white dark:bg-[#142421] rounded-2xl shadow-xl border border-nordic/10 dark:border-emerald-500/20 p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                    <div className="text-xs font-bold text-nordic dark:text-white mb-3">Habitaciones y Baños</div>
+                    <div className="text-xs font-bold text-nordic dark:text-white mb-3">{t.filters.bedrooms} & {t.filters.bathrooms}</div>
                     <div className="space-y-4">
                       <div>
-                        <label className="text-[11px] font-semibold text-nordic/60 dark:text-emerald-100/60 block mb-1.5">Habitaciones Mínimas</label>
+                        <label className="text-[11px] font-semibold text-nordic/60 dark:text-emerald-100/60 block mb-1.5">{t.filters.bedrooms}</label>
                         <div className="flex gap-1">
                           {["", "1", "2", "3", "4"].map((num) => (
                             <button
@@ -371,14 +376,14 @@ export default function SearchScreen({ initialProperties }: SearchScreenProps) {
                                   : "border-nordic/15 dark:border-emerald-500/30 text-nordic dark:text-white hover:bg-hint-of-green/20"
                               }`}
                             >
-                              {num === "" ? "Todas" : `${num}+`}
+                              {num === "" ? t.filters.any : `${num}+`}
                             </button>
                           ))}
                         </div>
                       </div>
 
                       <div>
-                        <label className="text-[11px] font-semibold text-nordic/60 dark:text-emerald-100/60 block mb-1.5">Baños Mínimos</label>
+                        <label className="text-[11px] font-semibold text-nordic/60 dark:text-emerald-100/60 block mb-1.5">{t.filters.bathrooms}</label>
                         <div className="flex gap-1">
                           {["", "1", "2", "3", "4"].map((num) => (
                             <button
@@ -394,7 +399,7 @@ export default function SearchScreen({ initialProperties }: SearchScreenProps) {
                                   : "border-nordic/15 dark:border-emerald-500/30 text-nordic dark:text-white hover:bg-hint-of-green/20"
                               }`}
                             >
-                              {num === "" ? "Todos" : `${num}+`}
+                              {num === "" ? t.filters.any : `${num}+`}
                             </button>
                           ))}
                         </div>
@@ -422,12 +427,12 @@ export default function SearchScreen({ initialProperties }: SearchScreenProps) {
                 {openDropdown === "type" && (
                   <div className="absolute left-0 mt-2 w-52 bg-white dark:bg-[#142421] rounded-2xl shadow-xl border border-nordic/10 dark:border-emerald-500/20 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                     {[
-                      { key: "all", label: "Todos los tipos" },
-                      { key: "house", label: "Casas / Residencias" },
-                      { key: "apartment", label: "Departamentos" },
-                      { key: "villa", label: "Villas" },
-                      { key: "penthouse", label: "Penthouses" },
-                      { key: "townhouse", label: "Townhouses" },
+                      { key: "all", label: t.filters.allTypes },
+                      { key: "house", label: t.filters.house },
+                      { key: "apartment", label: t.filters.apartment },
+                      { key: "villa", label: t.filters.villa },
+                      { key: "penthouse", label: t.filters.penthouse },
+                      { key: "townhouse", label: t.filters.townhouse },
                     ].map((typeItem) => (
                       <button
                         key={typeItem.key}
@@ -461,7 +466,7 @@ export default function SearchScreen({ initialProperties }: SearchScreenProps) {
                 }`}
               >
                 <span className="material-symbols-outlined text-[18px]">tune</span>
-                <span>More Filters</span>
+                <span>{t.search.filterButton}</span>
                 {hasAdvancedFilters && (
                   <span className="w-2 h-2 rounded-full bg-mosque dark:bg-emerald-400 ml-0.5 animate-pulse" />
                 )}
@@ -471,8 +476,8 @@ export default function SearchScreen({ initialProperties }: SearchScreenProps) {
             {/* Results Count Bar */}
             <div className="flex items-center justify-between mt-3 text-xs text-nordic/70 dark:text-emerald-100/70">
               <p>
-                Mostrando <span className="font-bold text-nordic dark:text-white">{filteredProperties.length}</span> propiedades
-                {location ? ` en "${location}"` : ""}
+                {t.home.showingResults} <span className="font-bold text-nordic dark:text-white">{filteredProperties.length}</span> {t.search.resultsCount}
+                {location ? ` ${t.home.ofLabel} "${location}"` : ""}
               </p>
 
               {(location || maxPrice || minPrice || beds || baths || (propertyType && propertyType !== "all") || hasAdvancedFilters) && (
@@ -481,7 +486,7 @@ export default function SearchScreen({ initialProperties }: SearchScreenProps) {
                   className="text-xs font-semibold text-mosque dark:text-emerald-400 hover:underline flex items-center gap-1"
                 >
                   <span className="material-symbols-outlined text-sm">restart_alt</span>
-                  Limpiar Filtros
+                  {t.search.clearFilters}
                 </button>
               )}
             </div>
@@ -507,16 +512,16 @@ export default function SearchScreen({ initialProperties }: SearchScreenProps) {
                   search_off
                 </span>
                 <h3 className="text-lg font-bold text-nordic dark:text-white mb-1">
-                  No se encontraron propiedades
+                  {t.home.noPropertiesTitle}
                 </h3>
                 <p className="text-xs md:text-sm text-nordic/70 dark:text-emerald-100/70 max-w-sm mb-5">
-                  Intenta ajustar los criterios de búsqueda o limpiar los filtros activos para ver más opciones.
+                  {t.home.noPropertiesSubtitle}
                 </p>
                 <button
                   onClick={clearAllFilters}
                   className="bg-mosque dark:bg-emerald-600 text-white text-xs font-bold px-5 py-2.5 rounded-full shadow-sm hover:opacity-90 transition-opacity"
                 >
-                  Limpiar Todos los Filtros
+                  {t.search.clearFilters}
                 </button>
               </div>
             )}
