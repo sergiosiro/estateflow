@@ -10,7 +10,7 @@ type Theme = "system" | "light" | "dark";
 
 export default function Navbar() {
   const { t } = useLanguage();
-  const { user, signOut, loading: authLoading } = useAuth();
+  const { user, profile, isAdmin, signOut, loading: authLoading } = useAuth();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>("system");
@@ -93,6 +93,7 @@ export default function Navbar() {
   const getUserInitial = () => {
     if (!user) return "U";
     const name =
+      profile?.full_name ||
       user.user_metadata?.full_name ||
       user.user_metadata?.name ||
       user.email ||
@@ -103,6 +104,7 @@ export default function Navbar() {
   const getUserDisplayName = () => {
     if (!user) return "";
     return (
+      profile?.full_name ||
       user.user_metadata?.full_name ||
       user.user_metadata?.name ||
       user.email?.split("@")[0] ||
@@ -111,7 +113,9 @@ export default function Navbar() {
   };
 
   const avatarUrl =
-    user?.user_metadata?.avatar_url || user?.user_metadata?.picture;
+    profile?.avatar_url ||
+    user?.user_metadata?.avatar_url ||
+    user?.user_metadata?.picture;
 
   return (
     <header className="bg-white/90 dark:bg-[#0d1816]/90 backdrop-blur-md shadow-xs sticky top-0 z-50 w-full transition-all duration-300 border-b border-nordic/10 dark:border-emerald-500/20">
@@ -147,6 +151,17 @@ export default function Navbar() {
           >
             {t.nav.sell}
           </Link>
+
+          {/* Logged in User Link: My Properties */}
+          {user && (
+            <Link
+              href="/dashboard/propiedades"
+              className="text-sm font-semibold text-mosque dark:text-emerald-400 hover:text-mosque/80 dark:hover:text-emerald-300 bg-hint-of-green/30 dark:bg-emerald-950/50 border border-mosque/20 px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 active:scale-95 duration-150"
+            >
+              <span className="material-symbols-outlined text-lg">real_estate_agent</span>
+              <span>{t.dashboard.myPropertiesTab}</span>
+            </Link>
+          )}
         </nav>
 
         {/* Actions */}
@@ -262,9 +277,16 @@ export default function Navbar() {
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-bold text-nordic dark:text-white truncate">
-                        {getUserDisplayName()}
-                      </p>
+                      <div className="flex items-center gap-1.5">
+                        <p className="text-xs font-bold text-nordic dark:text-white truncate">
+                          {getUserDisplayName()}
+                        </p>
+                        {isAdmin && (
+                          <span className="text-[9px] uppercase font-bold tracking-wider px-1.5 py-0.2 rounded bg-hint-of-green dark:bg-emerald-900 text-mosque dark:text-emerald-300">
+                            Admin
+                          </span>
+                        )}
+                      </div>
                       <p className="text-[11px] text-nordic/60 dark:text-emerald-100/60 truncate">
                         {user.email}
                       </p>
@@ -273,6 +295,32 @@ export default function Navbar() {
 
                   {/* Menu Items */}
                   <div className="py-1">
+                    {/* Dashboard: My Properties */}
+                    <Link
+                      href="/dashboard/propiedades"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="px-4 py-2 text-xs font-semibold text-mosque dark:text-emerald-400 hover:bg-hint-of-green/20 dark:hover:bg-emerald-900/30 flex items-center gap-2.5 transition-colors"
+                    >
+                      <span className="material-symbols-outlined text-base">
+                        real_estate_agent
+                      </span>
+                      {t.dashboard.myPropertiesTab}
+                    </Link>
+
+                    {/* Admin: User Management */}
+                    {isAdmin && (
+                      <Link
+                        href="/dashboard/usuarios"
+                        onClick={() => setUserDropdownOpen(false)}
+                        className="px-4 py-2 text-xs font-semibold text-nordic/80 dark:text-emerald-100/80 hover:bg-hint-of-green/20 dark:hover:bg-emerald-900/30 hover:text-mosque dark:hover:text-emerald-400 flex items-center gap-2.5 transition-colors"
+                      >
+                        <span className="material-symbols-outlined text-base">
+                          manage_accounts
+                        </span>
+                        {t.dashboard.userManagementTab}
+                      </Link>
+                    )}
+
                     <Link
                       href="/buscar"
                       onClick={() => setUserDropdownOpen(false)}
@@ -282,17 +330,6 @@ export default function Navbar() {
                         bookmark
                       </span>
                       {t.auth.myFavorites}
-                    </Link>
-
-                    <Link
-                      href="/buscar"
-                      onClick={() => setUserDropdownOpen(false)}
-                      className="px-4 py-2 text-xs font-medium text-nordic/80 dark:text-emerald-100/80 hover:bg-hint-of-green/20 dark:hover:bg-emerald-900/30 hover:text-mosque dark:hover:text-emerald-400 flex items-center gap-2.5 transition-colors"
-                    >
-                      <span className="material-symbols-outlined text-base">
-                        add_home
-                      </span>
-                      {t.auth.publishProperty}
                     </Link>
                   </div>
 
@@ -325,7 +362,7 @@ export default function Navbar() {
 
           {/* Action CTA Button */}
           <Link
-            href={user ? "/buscar" : "/login"}
+            href={user ? "/dashboard/propiedades" : "/login"}
             className="bg-mosque dark:bg-emerald-600 text-white hover:bg-mosque/90 dark:hover:bg-emerald-500 transition-colors py-2 px-4 md:px-5 rounded-full text-xs md:text-sm font-semibold active:scale-95 duration-150 shadow-sm flex items-center gap-1"
           >
             {t.nav.publish}
@@ -393,6 +430,30 @@ export default function Navbar() {
           >
             {t.nav.sell}
           </Link>
+
+          {/* User Links in Mobile Menu */}
+          {user && (
+            <>
+              <Link
+                href="/dashboard/propiedades"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-base font-semibold text-mosque dark:text-emerald-400 py-2 border-b border-nordic/5 dark:border-emerald-500/10 flex items-center gap-2"
+              >
+                <span className="material-symbols-outlined text-lg">real_estate_agent</span>
+                <span>{t.dashboard.myPropertiesTab}</span>
+              </Link>
+              {isAdmin && (
+                <Link
+                  href="/dashboard/usuarios"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-base font-semibold text-mosque dark:text-emerald-400 py-2 border-b border-nordic/5 dark:border-emerald-500/10 flex items-center gap-2"
+                >
+                  <span className="material-symbols-outlined text-lg">manage_accounts</span>
+                  <span>{t.dashboard.userManagementTab}</span>
+                </Link>
+              )}
+            </>
+          )}
 
           {user ? (
             <button
