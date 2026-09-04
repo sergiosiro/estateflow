@@ -203,5 +203,13 @@ export const fr: Translations = {
     confirmDelete: "Confirmer la Suppression",
     confirmDeletePropertyMsg: "Êtes-vous sûr de vouloir supprimer cette propriété ? Cette action est irréversible.",
     confirmDeleteUserMsg: "Êtes-vous sûr de vouloir supprimer cet utilisateur du système ?",
+    uploadImagesTitle: "Images de la Propriété",
+    uploadImagesSubtitle: "Téléchargez des images depuis votre ordinateur pour illustrer la propriété.",
+    dragDropText: "Glissez et déposez vos photos ici ou",
+    browseFiles: "Parcourir les fichiers",
+    primaryImageBadge: "Principale",
+    setAsPrimary: "Définir comme principale",
+    uploadingImages: "Téléchargement des images...",
+    removeImage: "Supprimer photo",
   },
 };

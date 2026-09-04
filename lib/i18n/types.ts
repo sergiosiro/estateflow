@@ -208,5 +208,13 @@ export interface Translations {
     confirmDelete: string;
     confirmDeletePropertyMsg: string;
     confirmDeleteUserMsg: string;
+    uploadImagesTitle: string;
+    uploadImagesSubtitle: string;
+    dragDropText: string;
+    browseFiles: string;
+    primaryImageBadge: string;
+    setAsPrimary: string;
+    uploadingImages: string;
+    removeImage: string;
   };
 }

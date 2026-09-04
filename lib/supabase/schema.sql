@@ -191,3 +191,40 @@ BEGIN
   RETURN jsonb_build_object('success', true);
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- 4. Supabase Storage: Properties Bucket & Policies
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'properties',
+  'properties',
+  true,
+  10485760, -- 10MB
+  ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif']
+)
+ON CONFLICT (id) DO UPDATE SET
+  public = true,
+  file_size_limit = 10485760,
+  allowed_mime_types = ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif'];
+
+-- Storage Policies for 'properties' bucket
+DROP POLICY IF EXISTS "Public Access for Property Images" ON storage.objects;
+DROP POLICY IF EXISTS "Allow Uploads for Property Images" ON storage.objects;
+DROP POLICY IF EXISTS "Allow Updates for Property Images" ON storage.objects;
+DROP POLICY IF EXISTS "Allow Deletes for Property Images" ON storage.objects;
+
+CREATE POLICY "Public Access for Property Images"
+  ON storage.objects FOR SELECT
+  USING (bucket_id = 'properties');
+
+CREATE POLICY "Allow Uploads for Property Images"
+  ON storage.objects FOR INSERT
+  WITH CHECK (bucket_id = 'properties');
+
+CREATE POLICY "Allow Updates for Property Images"
+  ON storage.objects FOR UPDATE
+  USING (bucket_id = 'properties')
+  WITH CHECK (bucket_id = 'properties');
+
+CREATE POLICY "Allow Deletes for Property Images"
+  ON storage.objects FOR DELETE
+  USING (bucket_id = 'properties');

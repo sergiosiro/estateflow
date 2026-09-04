@@ -31,9 +31,19 @@ export function mapSupabaseItemToProperty(item: any): Property {
 
   let imageCollection: string[] = [];
   if (Array.isArray(item.images) && item.images.length > 0) {
-    imageCollection = item.images;
-  } else {
+    imageCollection = item.images.filter(Boolean);
+  } else if (typeof item.images === "string" && item.images.startsWith("{") && item.images.endsWith("}")) {
+    imageCollection = item.images
+      .slice(1, -1)
+      .split(",")
+      .map((s: string) => s.replace(/^"|"$/g, "").trim())
+      .filter(Boolean);
+  }
+
+  if (imageCollection.length === 0) {
     imageCollection = [mainImageUrl, ...fallbackGallery];
+  } else if (!imageCollection.includes(mainImageUrl)) {
+    imageCollection = [mainImageUrl, ...imageCollection];
   }
 
   const title = item.title || "Propiedad sin título";
@@ -377,7 +387,8 @@ export async function createUserProperty(
     beds: number;
     baths: number;
     sqft: number;
-    imageUrl: string;
+    imageUrl?: string;
+    images?: string[];
     description?: string;
     status?: "active" | "draft";
     tag?: string;
@@ -387,6 +398,12 @@ export async function createUserProperty(
   try {
     const propertyId = `prop-${Date.now()}`;
     const propertySlug = slugify(propertyData.title) + `-${Math.floor(Math.random() * 1000)}`;
+
+    const imagesList = propertyData.images && propertyData.images.length > 0
+      ? propertyData.images
+      : (propertyData.imageUrl ? [propertyData.imageUrl] : ["https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"]);
+
+    const primaryImageUrl = propertyData.imageUrl || imagesList[0];
 
     const row = {
       id: propertyId,
@@ -400,8 +417,9 @@ export async function createUserProperty(
       beds: propertyData.beds,
       baths: propertyData.baths,
       sqft: propertyData.sqft,
-      image_url: propertyData.imageUrl || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+      image_url: primaryImageUrl,
       image_alt: propertyData.title,
+      images: imagesList,
       badge_text: propertyData.status === "draft" ? "Draft" : (propertyData.tag || "Active"),
       badge_variant: propertyData.status === "draft" ? "draft" : "new",
       description: propertyData.description || "",
@@ -443,6 +461,7 @@ export async function updateUserProperty(
     baths: number;
     sqft: number;
     imageUrl: string;
+    images: string[];
     description: string;
     status: "active" | "draft";
     tag: string;
@@ -460,6 +479,7 @@ export async function updateUserProperty(
     if (propertyData.baths !== undefined) updatePayload.baths = propertyData.baths;
     if (propertyData.sqft !== undefined) updatePayload.sqft = propertyData.sqft;
     if (propertyData.imageUrl !== undefined) updatePayload.image_url = propertyData.imageUrl;
+    if (propertyData.images !== undefined) updatePayload.images = propertyData.images;
     if (propertyData.description !== undefined) updatePayload.description = propertyData.description;
     if (propertyData.status !== undefined) {
       updatePayload.status = propertyData.status;

@@ -203,5 +203,13 @@ export const en: Translations = {
     confirmDelete: "Confirm Deletion",
     confirmDeletePropertyMsg: "Are you sure you want to delete this property? This action cannot be undone.",
     confirmDeleteUserMsg: "Are you sure you want to remove this user from the system?",
+    uploadImagesTitle: "Property Images",
+    uploadImagesSubtitle: "Upload images from your computer to illustrate the property.",
+    dragDropText: "Drag and drop your photos here or",
+    browseFiles: "Browse files",
+    primaryImageBadge: "Primary",
+    setAsPrimary: "Set as primary",
+    uploadingImages: "Uploading images...",
+    removeImage: "Remove photo",
   },
 };
