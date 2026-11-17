@@ -63,7 +63,7 @@ export default function Footer() {
       {/* Copyright */}
       <div className="border-t border-white/10 dark:border-emerald-900/30 px-4 md:px-12 py-4">
         <div className="max-w-7xl mx-auto text-xs text-white/50 dark:text-emerald-100/50 text-center md:text-left">
-          © {new Date().getFullYear()} {t.footer.copyright}
+          © {new Date().getFullYear()} {t.footer.copyright} • Powered by Antigravity
         </div>
       </div>
     </footer>
